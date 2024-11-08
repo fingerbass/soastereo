@@ -1,0 +1,17 @@
+{
+  "short_name" : "soa",
+  "name"       : "Sistema de Eventos",
+  "description": "Sistema de Eventos",
+  "icons"      : [
+    {
+      "src"  : "<%= BASE_URL %>favicon.ico",
+      "type" : "image/ico",
+      "sizes": "417x402"
+    }
+  ],
+  "start_url"       : "/",
+  "background_color": "#000000",
+  "display"         : "standalone",
+  "scope"           : "/",
+  "theme_color"     : "#000000"
+}
