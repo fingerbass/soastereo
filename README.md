@@ -1,3 +1,4 @@
+
 # Manual de Contribución al Proyecto Soastereo
 
 Este documento describe el flujo de trabajo recomendado para contribuir al proyecto **Soastereo**. Sigue estos pasos para garantizar que todos los desarrolladores trabajen de manera coordinada y que el código permanezca limpio y fácil de mantener.
@@ -7,7 +8,7 @@ Este documento describe el flujo de trabajo recomendado para contribuir al proye
 2. [Primer Descarga del Proyecto](#primer-descarga-del-proyecto)
 3. [Enviar Cambios al Repositorio](#enviar-cambios-al-repositorio)
 4. [Actualizar el Proyecto con los Últimos Cambios](#actualizar-el-proyecto-con-los-últimos-cambios)
-
+5. [Levantar el Proyecto](#5-levantar-el-proyecto)
 ---
 
 ## 1. Estructura de Ramas
@@ -134,9 +135,64 @@ Para asegurarte de que siempre estás trabajando con la versión más reciente d
 ## Notas Adicionales
 
 - **Evita hacer commits directamente en `main`**.
-- **Comunicación**: Si encuentras un problema o necesitas ayuda, usa los comentarios en GitHub o una plataforma de comunicación interna.
+- **Comunicación**: Si encuentras un problema o necesitas ayuda, usa los comentarios en GitHub o escríbe al grupo interno de WhatsApp.
 - **Documentación**: Añade comentarios y documentación en el código cuando sea necesario para facilitar la comprensión de los cambios realizados.
 
 ---
 
 Este flujo de trabajo ayudará a mantener el código organizado y reducirá los conflictos al trabajar en equipo. ¡Feliz codificación!
+
+
+## 5. Levantar el Proyecto
+
+Para ejecutar el proyecto **Soastereo**, sigue las instrucciones específicas para levantar el servidor (`soa-server`) y el cliente (`soa-client`).
+
+### Requisitos Previos
+
+Si es la primera vez que levantas el proyecto, es necesario instalar las dependencias de cada uno de los módulos.
+
+#### Instalación de Dependencias
+
+1. **Instalar dependencias del servidor**: Navega a la carpeta `soa-server` y ejecuta el siguiente comando para instalar las dependencias globales necesarias, incluido `nodemon`:
+
+   ```bash
+   npm install -g nodemon
+   ```
+
+2. **Instalar dependencias locales en cada módulo**: Ejecuta el siguiente comando en las carpetas `soa-server` y `soa-client` para instalar las dependencias locales:
+
+   ```bash
+   npm install
+   ```
+
+### Levantar el Servidor (soa-server)
+
+Para levantar el servidor, abre una ventana de **Símbolo del sistema (CMD)**, navega a la carpeta `soa-server` y ejecuta el siguiente comando:
+
+```bash
+nodemon
+```
+
+![alt text](run-server-1.png)
+
+Este comando iniciará el servidor en modo de desarrollo, lo que permite una recarga automática cuando se realizan cambios en el código. El puerto donde estará activo es el 3001, por lo tanto si quieres consultar o hacer pruebas a los servicios expuestos será desde la URL http://localhost:3001
+
+![alt text](run-server-2.png)
+
+### Levantar el Cliente (soa-client)
+
+Para levantar el cliente, abre otra ventana de **Símbolo del sistema (CMD)**, navega a la carpeta `soa-client` y ejecuta el siguiente comando:
+
+```bash
+npm run dev
+```
+
+![alt text](run-client.png)
+
+Esto iniciará el entorno de desarrollo del cliente, que estará disponible en el navegador para realizar pruebas. Automáticamente se levantará la url http://localhost:8065
+
+![alt text](run-client-2.png)
+
+---
+
+Siguiendo estas instrucciones, podrás levantar tanto el servidor como el cliente y ejecutar el proyecto completo en tu entorno local.
