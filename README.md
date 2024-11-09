@@ -4,10 +4,10 @@
 Este documento describe el flujo de trabajo recomendado para contribuir al proyecto **Soastereo**. Sigue estos pasos para garantizar que todos los desarrolladores trabajen de manera coordinada y que el código permanezca limpio y fácil de mantener.
 
 ## Tabla de Contenidos
-1. [Estructura de Ramas](#estructura-de-ramas)
-2. [Primer Descarga del Proyecto](#primer-descarga-del-proyecto)
-3. [Enviar Cambios al Repositorio](#enviar-cambios-al-repositorio)
-4. [Actualizar el Proyecto con los Últimos Cambios](#actualizar-el-proyecto-con-los-últimos-cambios)
+1. [Estructura de Ramas](#1-estructura-de-ramas)
+2. [Primer Descarga del Proyecto](#2-primer-descarga-del-proyecto)
+3. [Enviar Cambios al Repositorio](#3-enviar-cambios-al-repositorio)
+4. [Actualizar el Proyecto con los Últimos Cambios](#4-actualizar-el-proyecto-con-los-últimos-cambios)
 5. [Levantar el Proyecto](#5-levantar-el-proyecto)
 ---
 
@@ -15,9 +15,8 @@ Este documento describe el flujo de trabajo recomendado para contribuir al proye
 
 Para facilitar el trabajo en equipo y evitar conflictos de código, seguimos una estructura de ramas:
 
-- **main**: La rama principal del proyecto. Solo contiene código estable. No se deben hacer cambios directos en esta rama.
-- **feature/<nombre-funcionalidad>**: Cada desarrollador trabaja en su propia rama basada en `main`. Crea una nueva rama para cada funcionalidad, mejora o corrección.
-- **develop** (opcional): Si el proyecto es complejo, se puede usar una rama de integración para combinar cambios antes de fusionarlos en `main`.
+- **master**: La rama principal del proyecto. Solo contiene código estable. No se deben hacer cambios directos en esta rama.
+- **feature/<nombre-funcionalidad>**: Cada desarrollador trabaja en su propia rama basada en `master`. Crea una nueva rama para cada funcionalidad, mejora o corrección.
 
 ### Nombres de Ramas
 Usa el siguiente formato para nombrar tus ramas de trabajo:
