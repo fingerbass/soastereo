@@ -48,7 +48,7 @@ Para descargar el proyecto por primera vez:
    cd soastereo
    ```
 
-3. **Crea una nueva rama** basada en `main`:
+3. **Crea una nueva rama** basada en `master`:
 
    ```bash
    git checkout -b feature/nombre-funcionalidad
@@ -78,12 +78,13 @@ Cuando hayas realizado cambios en tu rama y quieras compartirlos con el equipo:
 3. **Crea un Pull Request (PR)** desde GitHub:
    - Ve a [GitHub](https://github.com/fingerbass/soastereo).
    - Haz clic en **Pull Requests** y selecciona **New Pull Request**.
-   - Selecciona tu rama como la rama de origen (`feature/nombre-funcionalidad`) y `main` como la rama de destino.
+   - Selecciona tu rama como la rama de origen (`feature/nombre-funcionalidad`) y `master` como la rama de destino.
+   [text](README.md)
    - Agrega una descripción detallada de los cambios y envía el PR.
 
 4. **Espera la revisión**: Los demás desarrolladores revisarán tu PR, harán comentarios o sugerencias y lo aprobarán si está listo para fusionarse.
 
-5. **Fusionar el PR**: Una vez aprobado, podrás fusionar el PR en `main`. **Nota**: Solo los colaboradores autorizados deben hacer merges a `main`.
+5. **Fusionar el PR**: Una vez aprobado, podrás fusionar el PR en `master`. **Nota**: Solo los colaboradores autorizados deben hacer merges a `master`.
 
 ---
 
@@ -91,16 +92,16 @@ Cuando hayas realizado cambios en tu rama y quieras compartirlos con el equipo:
 
 Para asegurarte de que siempre estás trabajando con la versión más reciente del proyecto:
 
-1. **Cambia a la rama `main`**:
+1. **Cambia a la rama `master`**:
 
    ```bash
-   git checkout main
+   git checkout master
    ```
 
-2. **Obtén los últimos cambios de `main` desde el repositorio remoto**:
+2. **Obtén los últimos cambios de `master` desde el repositorio remoto**:
 
    ```bash
-   git pull origin main
+   git pull origin master
    ```
 
 3. **Fusiona los cambios recientes en tu rama de trabajo**:
@@ -110,13 +111,13 @@ Para asegurarte de que siempre estás trabajando con la versión más reciente d
      git checkout feature/nombre-funcionalidad
      ```
 
-   - Fusiona los últimos cambios de `main` en tu rama:
+   - Fusiona los últimos cambios de `master` en tu rama:
 
      ```bash
-     git merge main
+     git merge master
      ```
 
-   Esto traerá los últimos cambios de `main` a tu rama de trabajo. Si existen conflictos, Git te pedirá que los resuelvas antes de completar el merge.
+   Esto traerá los últimos cambios de `master` a tu rama de trabajo. Si existen conflictos, Git te pedirá que los resuelvas antes de completar el merge.
 
 4. **Continúa trabajando en tu rama** y repite el ciclo de `commit`, `push` y PR cuando estés listo para compartir cambios.
 
@@ -127,13 +128,13 @@ Para asegurarte de que siempre estás trabajando con la versión más reciente d
 1. **Crear una nueva rama** para cada tarea o funcionalidad.
 2. **Hacer commit y push** en tu propia rama.
 3. **Crear un Pull Request** para revisión y aprobación.
-4. **Actualizar tu rama de trabajo** con los últimos cambios de `main`.
+4. **Actualizar tu rama de trabajo** con los últimos cambios de `master`.
 
 ---
 
 ## Notas Adicionales
 
-- **Evita hacer commits directamente en `main`**.
+- **Evita hacer commits directamente en `master`**.
 - **Comunicación**: Si encuentras un problema o necesitas ayuda, usa los comentarios en GitHub o escríbe al grupo interno de WhatsApp.
 - **Documentación**: Añade comentarios y documentación en el código cuando sea necesario para facilitar la comprensión de los cambios realizados.
 
