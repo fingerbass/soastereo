@@ -284,7 +284,7 @@ var getInfo = function(req, res) {
               // console.log('rolesAux:>>> ', rolesAux)
               data.roles        = rolesAux
               data.name         = rolesAux[0]
-              data.introduction = `SOY UN CONSULTOR ${rolesAux[0]}`
+              data.introduction = `SOY UN ${rolesAux[0]}`
 
               response.status = 1
               response.token  = token
