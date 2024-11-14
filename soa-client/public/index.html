@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#000000">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#000000">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#000000">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link href="https://fonts.cdnfonts.com/css/helvetica-neue-lt-pro" rel="stylesheet">
+    <link rel='shortcut icon' type='image/x-icon' href="./favicon.ico" />
+    <link rel="icon" href="./favicon.ico">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <!-- Para compatibilidad con dispositivos iOS (obsoleta, pero útil en versiones antiguas) -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Para compatibilidad con dispositivos Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-app-capable" content="yes">
+    <title><%= webpackConfig.name %></title>
+  </head>
+  <body>
+    <!-- <noscript>
+      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript> -->
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+    <!-- <script type="text/JavaScript">
+    window.onload = function () {
+      document.addEventListener("contextmenu", function (e) {
+          e.preventDefault();
+      }, false);
+      document.addEventListener("keydown", function (e) {
+          //document.onkeydown = function(e) {
+          // "I" key
+          if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+              disabledEvent(e);
+          }
+          // "J" key
+          if (e.ctrlKey && e.shiftKey && e.keyCode == 74) {
+              disabledEvent(e);
+          }
+          // "S" key + macOS
+          if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+              disabledEvent(e);
+          }
+          // "U" key
+          if (e.ctrlKey && e.keyCode == 85) {
+              disabledEvent(e);
+          }
+          // "F12" key
+          if (event.keyCode == 123) {
+              disabledEvent(e);
+          }
+      }, false);
+      function disabledEvent(e) {
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        } else if (window.event) {
+            window.event.cancelBubble = true;
+        }
+        e.preventDefault();
+        return false;
+      }
+    }
+  </script> -->
+</html>

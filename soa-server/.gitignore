@@ -1,0 +1,17 @@
+*.seed
+*.log
+*.sql
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.env
+*.xlsx
+
+npm-debug.log
+node_modules
+upload
+statics
+temporal
+dist
