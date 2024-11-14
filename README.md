@@ -79,7 +79,7 @@ Cuando hayas realizado cambios en tu rama y quieras compartirlos con el equipo:
    - Ve a [GitHub](https://github.com/fingerbass/soastereo).
    - Haz clic en **Pull Requests** y selecciona **New Pull Request**.
    - Selecciona tu rama como la rama de origen (`feature/nombre-funcionalidad`) y `master` como la rama de destino.
-   [text](README.md)
+   ![alt text](pull-request.png)
    - Agrega una descripción detallada de los cambios y envía el PR.
 
 4. **Espera la revisión**: Los demás desarrolladores revisarán tu PR, harán comentarios o sugerencias y lo aprobarán si está listo para fusionarse.
