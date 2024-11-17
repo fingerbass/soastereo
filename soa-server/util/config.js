@@ -15,10 +15,10 @@ var config = {
 			logo   : '',
 			db     : {
 				object_connection: {
-					user    : '',
-					password: '',
-					server  : '',
-					database: '',
+					user    : 'sa',
+					password: 'RivieraInsana++',
+					server  : '135.148.78.170',
+					database: 'soa',
 					options: {
 						encrypt: false,
 						useUTC : false
@@ -49,8 +49,8 @@ var config = {
 			db     : {
 				object_connection: {
 					user    : 'sa',
-					password: 'sql',
-					server  : '192.168.1.42',
+					password: 'RivieraInsana++',
+					server  : '135.148.78.170',
 					database: 'soa',
 					options: {
 						encrypt: false,
