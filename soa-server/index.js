@@ -50,7 +50,7 @@ app.use('/usuarios-password', 		  require('./router/usuarios_password'))
 app.use('/roles', 									require('./router/roles'))
 app.use('/clientes', 							  require('./router/clientes'))
 app.use('/categorias', 							require('./router/categorias'))
-
+app.use('/evaluacion', 							require('./router/evaluacion'))
 
 // Fin Routes
 
