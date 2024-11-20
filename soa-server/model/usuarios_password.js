@@ -11,18 +11,19 @@ var moment     = require('moment')
 	;
   
 var usuariospasswordCambiar = function(req, res) {
-  var usuarioLogueado   = req.decoded ? req.decoded.usuario : 'undefined'
-  var username          = req.body.username                  || 'soa'
-  var empresa           = req.body.empresa                   || 'soa'
-  var idusuario         = req.body.idusuario                 || ''
-  var password          = req.body.password                  || ''
-  var restablece        = req.body.restablece                || 0
+  var usuarioLogueado = req.decoded ? req.decoded.usuario : 'undefined'
+  var username        = req.body.username                  || 'soa'
+  var empresa         = req.body.empresa                   || 'soa'
+  var idusuario       = req.body.idusuario                 || ''
+  var idusuario2      = req.body.idusuario2                 || ''
+  var password        = req.body.password                  || ''
+  var restablece      = req.body.restablece                || 0
 
   var response = {
     status : 0
   }
 
-  if (!idusuario || idusuario === null || idusuario === undefined) {
+  if (!idusuario2 || idusuario2 === null || idusuario2 === undefined) {
     res.send({ status: 0, message: 'No esta mandando el usuario'})
     return
   }
@@ -38,9 +39,9 @@ var usuariospasswordCambiar = function(req, res) {
   var aux        = ''
   var where      = []
 
-  parameters.idusuario  = idusuario  || ''
-  parameters.password   = password   || ''
-  parameters.restablece = restablece || 0
+  parameters.idusuario  = idusuario2  || ''
+  parameters.password   = password    || ''
+  parameters.restablece = restablece  || 0
 
   console.log('parameters:>>> ', parameters)
 

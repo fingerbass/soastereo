@@ -1,5 +1,5 @@
 <template lang="pug">
-el-form(ref='form' :model='form' label-width='120px' size="mini" :label-position="isMovil ? 'top' : 'right'" :rules="rules" :show-message="false" class="demo-form")
+el-form(ref='form' :model='form' label-width='130px' size="mini" :label-position="isMovil ? 'top' : 'right'" :rules="rules" :show-message="false" class="demo-form")
   //- el-input.is-uppercase(v-if="tipoaccion === 2" size='mini' placeholder='ID' v-model='idusuario')
   el-row
     el-col(:xs="24" :sm="24" :md="24" :lg="24" :xl="24")
@@ -11,10 +11,10 @@ el-form(ref='form' :model='form' label-width='120px' size="mini" :label-position
     el-col(:xs="24" :sm="24" :md="24" :lg="24" :xl="24")
       el-form-item(label='Nombre' size='mini' prop="nombre")
         el-input.is-uppercase(size='mini' placeholder='Nombre' v-model='form.nombre' :maxlength="50" clearable show-word-limit)
-    el-col(:xs="24" :sm="24" :md="12" :lg="12" :xl="12")
-      el-form-item(label='Tipo Documento' prop='idtipodocumento' align='left' size='mini')
-        el-select.width-total(v-model='form.idtipodocumento' placeholder='Seleccione Tipo Documento' size='mini' :disabled="cargandoInformacion || isLoadingTipoDocumento" :loading="isLoadingTipoDocumento" @change='changeTipoDocumento()')
-          el-option(v-for='item in listaTiposDocumentos' :key='item.idtipodocumento' :label='item.nombre' :value='item.idtipodocumento')
+    //- el-col(:xs="24" :sm="24" :md="12" :lg="12" :xl="12")
+    //-   el-form-item(label='Tipo Documento' prop='idtipodocumento' align='left' size='mini')
+    //-     el-select.width-total(v-model='form.idtipodocumento' placeholder='Seleccione Tipo Documento' size='mini' :disabled="cargandoInformacion || isLoadingTipoDocumento" :loading="isLoadingTipoDocumento" @change='changeTipoDocumento()')
+    //-       el-option(v-for='item in listaTiposDocumentos' :key='item.idtipodocumento' :label='item.nombre' :value='item.idtipodocumento')
     el-col(:xs="24" :sm="24" :md="12" :lg="12" :xl="12")
       el-form-item(label='Documento' size='mini')
         el-input.is-uppercase(size='mini' placeholder='Ingrese Documento' v-model='form.documento' style='text-align: right;' :loading="isLoadingTipoDocumento" :disabled="cargandoInformacion || isLoadingTipoDocumento || isTrue" :maxlength="maxlengthTipodocumento" clearable show-word-limit)
@@ -194,7 +194,7 @@ export default {
       vm.isTrue = true
     }
     // console.log(this.$store.getters.size)
-    vm.fetchTiposDocumentos()
+    // vm.fetchTiposDocumentos()
     vm.cargarDatos()
   },
   methods: {
@@ -378,8 +378,9 @@ export default {
       }
       vm.isLoadingCambiarPassword  = true
       var obj                 = {
-        idusuario: vm.form.idusuario,
-        password : vm.form.password
+        idusuario2: vm.form.idusuario,
+        password  : vm.form.password,
+        restablece: 0
       }
       console.log(obj)
       usuariospasswordCambiar(obj).then(data => {
