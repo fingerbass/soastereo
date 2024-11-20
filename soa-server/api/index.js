@@ -8,6 +8,8 @@ var api = {
 		seg_roles            : require('./sql_seg_roles'),
 		adm_clientes         : require('./sql_adm_clientes'),
 		adm_categorias       : require('./sql_adm_categorias'),
+		adm_proveedores      : require('./sql_adm_proveedores'),
+		adm_empresas         : require('./sql_adm_empresas'),
   },
   ws : {
   }

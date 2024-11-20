@@ -32,7 +32,7 @@ import { categoriasMantenimiento }  from '@/api/categorias'
 import { notify }                   from '@/utils/general.js'
 import { mapState }                 from 'vuex'
 export default {
-  name: 'FormEmpresa',
+  name: 'FormCategorias',
   props: {
     title: {
       type    : String,

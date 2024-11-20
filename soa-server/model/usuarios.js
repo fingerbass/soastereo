@@ -230,11 +230,11 @@ var getInfo = function(req, res) {
       return
     }
 
-    // console.log('data:>>> ', data)
+    console.log('data:>>> ', data)
 
     if (isFound) {
 
-      var data = {
+      var objAux = {
         roles          : [],
         introduction   : '',
         name           : '',
@@ -256,13 +256,13 @@ var getInfo = function(req, res) {
       }
 
       if (data.administrador) {
-        data.roles        = ['ADMINISTRADOR']
-        data.name         = 'ADMINISTRADOR'
-        data.introduction = 'SOY UN SUPER ADMINISTRADOR'
+        objAux.roles        = ['ADMINISTRADOR']
+        objAux.name         = 'ADMINISTRADOR'
+        objAux.introduction = 'SOY UN SUPER ADMINISTRADOR'
   
         response.status = 1
         response.token  = token
-        response.data   = data
+        response.data   = objAux
         res.send(response)
       } else {
         handlerusuariosempresaListaIdUsuario(empresa, data.idusuario, function(err, listaEmpresa) {
@@ -272,7 +272,8 @@ var getInfo = function(req, res) {
             res.send(response)
             return
           } else {
-            // console.log('listaEmpresa getinfo:>>> ', listaEmpresa)
+            console.log('listaEmpresa getinfo:>>> ', listaEmpresa)
+            // return
 
             if (listaEmpresa && listaEmpresa.length >= 1) {
               var rolesAux = []

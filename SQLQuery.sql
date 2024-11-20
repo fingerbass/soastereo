@@ -12,6 +12,12 @@ GO
 --==================================================================================================================================================
 
 Select * From seg_usuarios
+Select * From seg_usuarios_empresa
+update seg_usuarios_empresa set idrol='1' where idusuarioempresa='2'
+Select * From seg_roles
+Select * From adm_empresas
+
+exec USP_seg_usuarios_empresa_lista_idusuario 3
 
 CREATE TABLE seg_db_error(
 	iddberror INT IDENTITY(1,1) PRIMARY KEY,
@@ -140,10 +146,194 @@ CREATE TABLE QUEJA (
 );
 
 
+CREATE TABLE [dbo].[adm_empresas](
+	[idempresa] [int] IDENTITY(1,1) NOT NULL,
+	[nombre] [varchar](100) NOT NULL,
+	[ruc] [varchar](11) NOT NULL,
+	[direccion] [varchar](100) NOT NULL,
+	[distrito] [varchar](50) NOT NULL,
+	[ciudad] [varchar](50) NOT NULL,
+	[telefono] [varchar](20) NOT NULL,
+	[email] [varchar](80) NOT NULL,
+	[activo] [bit] NOT NULL,
+	[logo] [image] NULL,
+	[isotipo] [image] NULL,
+	[usuarioregistro] [varchar](50) NOT NULL,
+	[fecharegistro] [datetime] NOT NULL,
+ CONSTRAINT [PK_adm_empresas] PRIMARY KEY CLUSTERED 
+(
+	[idempresa] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
 
 
 
 --========================================================================================================================================================
+
+USE [soa]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_adm_empresas_lista]    Script Date: 19/11/2024 22:23:39 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Jose Romero
+-- Create date: 19/11/2024
+-- Description:	Lista de la tabla adm_empresas en orden alfabetico
+-- =============================================
+CREATE PROCEDURE [dbo].[USP_adm_empresas_lista] 
+@idestado INT = 2 -- 1 = Activo, 0 = Inactivo, 2 = Todos
+
+AS
+BEGIN
+    SET NOCOUNT ON;
+    BEGIN TRY
+		SELECT idempresa
+			  ,nombre
+			  ,ruc
+			  ,direccion
+			  ,distrito
+			  ,ciudad
+			  ,telefono
+			  ,email
+			  ,activo
+			  ,logo
+			  ,isotipo
+			  ,usuarioregistro
+			  ,fecharegistro
+		FROM adm_empresas
+		WHERE CASE
+			WHEN @idestado = 2 THEN 1 -- activos e inactivos
+			WHEN @idestado = 1 AND activo = 1 THEN 1 -- activos
+			WHEN @idestado = 0 AND activo = 0 THEN 1 -- inactivos
+		END = 1
+		ORDER BY nombre
+	END TRY
+    BEGIN CATCH
+		-- Revertir cualquier transacción activa o no comprometida antes de insertar información en el registro de errores
+        IF @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK TRANSACTION;
+        END
+
+        EXECUTE USP_seg_error_registro;
+    END CATCH;
+END
+
+
+
+USE [soa]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_adm_empresas_mantenimiento]    Script Date: 19/11/2024 22:26:08 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		Jose Romero
+-- Create date: 19/11/2024
+-- Description:	Mantenimiento de la tabla adm_empresas
+-- =============================================
+CREATE PROCEDURE [dbo].[USP_adm_empresas_mantenimiento] 
+@tipo INT,
+@idempresa INT = NULL OUTPUT,
+@nombre VARCHAR(100) = " ",
+@ruc VARCHAR(11) = " ",
+@direccion VARCHAR(100) = " ",
+@distrito VARCHAR(50) = " ",
+@ciudad VARCHAR(50) = " ",
+@telefono VARCHAR(20) = " ",
+@email VARCHAR(80) = " ",
+@activo INT = 1,
+@logo IMAGE = null,
+@isotipo IMAGE = null,
+@usuarioregistro VARCHAR(50) = " "
+
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRY
+        BEGIN TRANSACTION;
+			IF @tipo=1 
+				BEGIN
+					INSERT INTO adm_empresas VALUES(
+						@nombre
+						,@ruc
+						,@direccion
+						,@distrito
+						,@ciudad
+						,@telefono
+						,@email
+						,@activo
+						,@logo
+						,@isotipo
+						,@usuarioregistro
+						,GETDATE())
+
+					SET @idempresa = SCOPE_IDENTITY();
+
+					/*INSERT INTO adm_empresas_sedes VALUES (
+						 @idempresa
+						,'OFICINA PRINCIPAL'
+						,@direccion
+						,@distrito
+						,@ciudad
+						,@activo
+						,@usuarioregistro
+						,GETDATE())
+
+					INSERT INTO adm_empresas_terceros VALUES (
+						 @idempresa
+						,@ruc
+						,@nombre
+						,@direccion
+						,@activo
+						,@usuarioregistro
+						,GETDATE())*/
+				END
+			ELSE 
+				IF @tipo = 2
+					BEGIN
+						UPDATE adm_empresas
+						SET nombre = @nombre
+							,ruc = @ruc
+							,direccion = @direccion
+							,distrito = @distrito
+							,ciudad = @ciudad
+							,telefono = @telefono
+							,email = @email
+							,activo = @activo
+							,logo = @logo
+							,isotipo = @isotipo
+						WHERE idempresa = @idempresa
+					END
+				ELSE 
+					IF @tipo = 3
+						BEGIN
+							DELETE adm_empresas WHERE idempresa = @idempresa
+						END
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+		-- Revertir cualquier transacción activa o no comprometida antes de insertar información en el registro de errores
+        IF @@TRANCOUNT > 0
+        BEGIN
+            ROLLBACK TRANSACTION;
+        END
+
+        EXECUTE USP_seg_error_registro;
+    END CATCH;
+END
+
+
+
+
+
 
 
 

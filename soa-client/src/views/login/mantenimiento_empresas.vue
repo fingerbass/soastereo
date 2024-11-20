@@ -14,30 +14,27 @@
       | Eliminar
     //- el-button.filter-item(v-waves='' :loading='downloadLoading' type='success' icon='el-icon-download' size='mini' @click='handleDownload' :disabled="downloadLoading")
     //-   | Exportar
-    //- el-dropdown(split-button='' style='margin-left: 10px; margin-right: 10px;' size='mini' type='success' icon='el-icon-download' :hide-on-click="true" :visible-change="true" @click='handleDownload' :disabled="downloadLoading")
-    //-   i.el-icon-download.el-icon--left
-    //-   | Exportar
-    //-   el-dropdown-menu(slot='dropdown')
-    //-     el-dropdown-item(icon='el-icon-download' @click.native.stop='handleDownloadExportar') Exportar Plantilla
-    //-     el-dropdown-item(icon='el-icon-upload' @click.native.stop='handleDownloadImportar') Importar Plantilla
+    el-dropdown(split-button='' style='margin-left: 10px; margin-right: 10px;' size='mini' type='success' icon='el-icon-download' :hide-on-click="true" :visible-change="true" @click='handleDownload' :disabled="downloadLoading")
+      i.el-icon-download.el-icon--left
+      | Exportar
+      el-dropdown-menu(slot='dropdown')
+        el-dropdown-item(icon='el-icon-download' @click.native.stop='handleDownloadExportar') Exportar Plantilla
+        el-dropdown-item(icon='el-icon-upload' @click.native.stop='handleDownloadImportar') Importar Plantilla
     //- el-button.filter-item(v-waves='' :loading='cargandoInformacion' type='success' icon='el-icon-download' size='mini' @click='handleDownload')
     //-   | Limpiar
     el-button.filter-item(v-waves='' :loading='cargandoInformacion' type='success' icon='el-icon-refresh' size='mini' @click='fetch()' :disabled="cargandoInformacion")
       | Actualizar
-  el-table(ref="tblproveedores" @selection-change="handleSelectionChange" :key='tableKey' v-loading='cargandoInformacion' :data='listaproveedores'  :border='false' fit='' highlight-current-row='' height="calc(100vh - 220px)" max-height="calc(100vh - 220px)" style="width: 100%;" size='mini' @sortByName-change='sortChange' @current-change="handleCurrentChange" :row-class-name="tableRowClassName" @cell-dblclick= "dblhandlecurrentchange" @row-click="rowClicked" @row-dblclick="rowDblClicked" empty-text="No existen Registros")
+  el-table(ref="tblempresas" @selection-change="handleSelectionChange" :key='tableKey' v-loading='cargandoInformacion' :data='listaEmpresas'  :border='false' fit='' highlight-current-row='' height="calc(100vh - 218px)" max-height="calc(100vh - 218px)" style="width: 100%;" size='mini' @sortByName-change='sortChange' @current-change="handleCurrentChange" :row-class-name="tableRowClassName" @cell-dblclick= "dblhandlecurrentchange" @row-click="rowClicked" @row-dblclick="rowDblClicked" empty-text="No existen Registros")
     el-table-column(type='selection' width='30')
-    //- el-table-column(label='ID' prop='idcliente' sortable='custom' align='center' width='60' :class-name="getSortClass('idcliente')")
+    //- el-table-column(label='ID' prop='idempresa' sortable='custom' align='center' width='60' :class-name="getSortClass('idempresa')")
     //-   template(slot-scope='{row}')
-    //-     span {{ row.idcliente }}
-    el-table-column(label='Nombres' prop='nombres' align='left')
+    //-     span {{ row.idempresa }}
+    el-table-column(label='Nombre' prop='nombre' align='left')
       template(slot-scope='{row}')
-        span {{ row.nombres }}
-    el-table-column(label='Apellidos' prop='apellidos' align='left')
+        span {{ row.nombre }}
+    el-table-column(label='Ruc' prop='ruc' align='center')
       template(slot-scope='{row}')
-        span {{ row.apellidos }}
-    el-table-column(label='Nro Do.' prop='numerodocumento' align='center')
-      template(slot-scope='{row}')
-        span {{ row.numerodocumento }}
+        span {{ row.ruc }}
     //- el-table-column(label='Direccion' prop='direccion' align='left')
     //-   template(slot-scope='{row}')
     //-     span {{ row.direccion }}
@@ -56,7 +53,7 @@
     el-table-column(label='Activo' prop='activo' align='center')
       template(slot-scope='{row}')
         //- span {{ row.activo }}
-        el-checkbox(v-model='row.activo' size='mini' readonly)
+        el-checkbox(v-model='row.activo' size='mini')
     //- el-table-column(label='Logo' prop='logo' align='center')
     //-   template(slot-scope='{row}')
     //-     span {{ row.logo }}
@@ -72,16 +69,31 @@
   pagination(v-show='totalpagination > 0' :total='totalpagination' :page.sync='pagination' :limit.sync='limit' @pagination='fetch')
 
   el-dialog(:title='textMap[dialogStatus]' v-if="dialogFormVisible" :visible.sync='dialogFormVisible' :close-on-click-modal='false' :close-on-press-escape='false' :show-close='false' @close="closeModalMantenimiento()" :width="isMovil ? '90%' : '50%'" top="8vh" center)
-    form-proveedores(v-if="dialogFormVisible" :title="textMap[dialogStatus]" :tipoaccion="tipoaccion" @save="fetch()" :model='obj' @close="closeModalMantenimiento()" center)
+    form-empresas(v-if="dialogFormVisible" :title="textMap[dialogStatus]" :tipoaccion="tipoaccion" @save="fetch()" :model='obj' @close="closeModalMantenimiento()" center)
 
   el-dialog(:title='textMap[dialogStatus]' :visible.sync='activarModalEliminarEmpresa' :close-on-click-modal='false' :close-on-press-escape='false' :show-close='false' @close="closeModalliminar()" width='30%' center='')
     span.bold ¿Desea eliminar&nbsp;
-    span.bold(v-if="arreglo.length === 1") este cliente
-    span.bold(v-else) los proveedores
+    span.bold(v-if="arreglo.length === 1") esta empresa
+    span.bold(v-else) las empresas
     span.bold ?
     span.dialog-footer(slot='footer')
       el-button(@click='closeModalliminar()') Cancelar
       el-button(type='primary' @click='eliminarRegistros()') Eliminar
+
+  el-dialog(title='Cargar Documento' :visible.sync='centerDialogVisible' :width="isMovil ? '90%' : '40%'" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" center='')
+    //- span It should be noted that the content will not be aligned in center by default
+    div(style="text-align: center;")
+      //- el-upload.upload-demo(ref='upload' v-model="filename" action='#' :auto-upload='false' accept='.xlsx, .csv' :multiple="false" :limit="1")
+      //-   el-button(slot='trigger' size='mini' type='warning') Selecciona un archivo
+      //-   //- el-button(style='margin-left: 10px;' size='mini' type='success' @click='submitUpload') Cargar al servidor
+      //-   .el-upload__tip(slot='tip') Solo archivos .xlsx, .csv con un tamaño menor de 500kb
+      adjuntar-archivo(
+        name="adjuntar_solicitud_permiso",
+        :is-saving="isSavingAdjunto"
+        :is-saved="isSavedAdjunto"
+        @close="closeAdjuntar"
+        @save="onSubmit"
+      )
     //- span.dialog-footer(slot='footer')
     //- el-row.dialog-footer(slot='footer')
       //- el-col(:xs="12" :sm="12" :md="12" :lg="12" :xl="12")
@@ -91,21 +103,23 @@
 </template>
 
 <script>
-import { proveedoresLista, proveedoresMantenimiento, proveedoresUUID, proveedoresUploadPlantillaCargaMasiva }   from '@/api/proveedores.js'
+import { empresasLista, empresasMantenimiento, empresasUUID, empresasUploadPlantillaCargaMasiva }   from '@/api/empresas'
 import waves                                      from '@/directive/waves' // waves directive
 // import { parseTime }                              from '@/utils'
 import Pagination                                 from '@/components/Pagination' // secondary package based on el-pagination
 import { mapState }                               from 'vuex'
 import { notify }                                 from '../../utils/general.js'
-import formproveedores                               from '@/components/proveedores'
-import { apiUploadWithParams }                    from '@/utils/general'
+import formEmpresas                               from '@/components/empresas'
+import adjuntarArchivo             from '@/components/componentes/c_adjuntar_archivo'
+import { apiUploadWithParams }   from '@/utils/general'
 import moment                                     from 'moment'
 
 export default {
-  name      : 'Mantenimientoproveedores',
+  name      : 'MantenimientoEmpresas',
   components: {
     Pagination,
-    'form-proveedores': formproveedores
+    'form-empresas'   : formEmpresas,
+    'adjuntar-archivo': adjuntarArchivo
   },
   directives: {
     waves
@@ -125,33 +139,33 @@ export default {
       cargandoInformacion        : true,
       tableKey                   : 0,
       lista                      : [],
-      listaproveedores              : [],
+      listaEmpresas              : [],
       listaDetalle               : [],
       listaQuery                 : {},
       textSearch                 : '',
       sortByType                 : 'ASC',
-      sortByName                 : '+idcliente',
+      sortByName                 : '+idempresa',
       idestado                   : 2,
       limit          : 50,
       pagination                 : 1,
       totalpagination            : 0,
       tipoaccion                 : 0,
-      idcliente                  : '',
+      idempresa                  : '',
       indexempresa               : '',
       obj                 : '',
-      sortOptions                : [{ label: 'ID Ascending', key: '+idcliente' }, { label: 'ID Descending', key: '-idcliente' }],
+      sortOptions                : [{ label: 'ID Ascending', key: '+idempresa' }, { label: 'ID Descending', key: '-idempresa' }],
       dialogFormVisible          : false,
       dialogStatus               : '',
       arreglo  : [],
       activarModalEliminarEmpresa: false,
       textMap                    : {
-        update: 'Editar proveedores',
-        create: 'Crear proveedores',
-        delete: 'Eliminar proveedores'
+        update: 'Editar Empresa',
+        create: 'Crear Empresa',
+        delete: 'Eliminar Empresas'
       },
       dialogPvVisible: false,
       temporal               : {
-        idcliente      : null,
+        idempresa      : null,
         nombre         : '',
         ruc            : '',
         direccion      : '',
@@ -190,7 +204,7 @@ export default {
   methods: {
     fetch() {
       var vm                  = this
-      vm.listaproveedores        = []
+      vm.listaEmpresas        = []
       vm.cargandoInformacion  = true
       vm.listaQuery = {
         textSearch: vm.textSearch,
@@ -200,10 +214,10 @@ export default {
         sortByType: vm.sortByType,
         sortByName: vm.sortByName
       }
-      proveedoresLista(vm.listaQuery).then(data => {
+      empresasLista(vm.listaQuery).then(data => {
         console.log('data: ', data)
         for (let i = 0; i < data.lista.length; i++) {
-          vm.listaproveedores.push(data.lista[i])
+          vm.listaEmpresas.push(data.lista[i])
         }
         vm.totalpagination     = data.cantidad
         vm.cargandoInformacion = vm.isLoading
@@ -237,16 +251,16 @@ export default {
     sortChange(data) {
       var vm = this
       const { prop, order } = data
-      if (prop === 'idcliente') {
+      if (prop === 'idempresa') {
         vm.sortByID(order)
       }
     },
     sortByID(order) {
       var vm = this
       if (order === 'ascending') {
-        vm.listaQuery.sortByName = '+idcliente'
+        vm.listaQuery.sortByName = '+idempresa'
       } else {
-        vm.listaQuery.sortByName = '-idcliente'
+        vm.listaQuery.sortByName = '-idempresa'
       }
       vm.handleFilter()
     },
@@ -258,7 +272,7 @@ export default {
     resetTemp() {
       var vm = this
       vm.temporal = {
-        idcliente      : null,
+        idempresa      : null,
         nombre         : '',
         ruc            : '',
         direccion      : '',
@@ -277,20 +291,20 @@ export default {
       var vm = this
       vm.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader   = ['idcliente', 'nombre', 'ruc', 'direccion', 'distrito', 'ciudad', 'telefono', 'email', 'activo', 'logo', 'isotipo', 'usuarioregistro', 'fecharegistro']
-        const filterVal = ['nombre', 'idcliente', 'ruc', 'direccion', 'distrito', 'ciudad', 'telefono', 'email', 'activo', 'logo', 'isotipo', 'usuarioregistro', 'fecharegistro']
+        const tHeader   = ['idempresa', 'nombre', 'ruc', 'direccion', 'distrito', 'ciudad', 'telefono', 'email', 'activo', 'logo', 'isotipo', 'usuarioregistro', 'fecharegistro']
+        const filterVal = ['nombre', 'idempresa', 'ruc', 'direccion', 'distrito', 'ciudad', 'telefono', 'email', 'activo', 'logo', 'isotipo', 'usuarioregistro', 'fecharegistro']
         const data      = vm.formatJson(filterVal)
         excel.export_json_to_excel({
           header: tHeader,
           data,
-          filename: 'table-listaproveedores'
+          filename: 'table-listaEmpresas'
         })
         vm.downloadLoading = false
       })
     },
     formatJson(filterVal) {
       var vm = this
-      return vm.listaproveedores.map(v => filterVal.map(j => {
+      return vm.listaEmpresas.map(v => filterVal.map(j => {
         return v[j]
         // if (j === 'timestamp') {
         //   return parseTime(v[j])
@@ -311,16 +325,16 @@ export default {
         excel.export_json_to_excel({
           header: tHeader,
           data,
-          filename: 'plantilla-listaproveedores'
+          filename: 'plantilla-listaEmpresas'
         })
         vm.downloadLoading = false
       })
     },
     formatJsonExportar(filterVal) {
       // var vm = this
-      var listaproveedores = [
+      var listaEmpresas = [
         {
-          // idcliente      : !this.administrador ? JSON.parse(localStorage.getItem('itemproveedoreseleccionado')) : '',
+          // idempresa      : !this.administrador ? JSON.parse(localStorage.getItem('itemEmpresaSeleccionado')) : '',
           nombre         : '',
           ruc            : '',
           direccion      : '',
@@ -335,7 +349,7 @@ export default {
           // fecharegistro  : moment().format()
         }
       ]
-      return listaproveedores.map(v => filterVal.map(j => {
+      return listaEmpresas.map(v => filterVal.map(j => {
         return v[j]
         // if (j === 'timestamp') {
         //   return parseTime(v[j])
@@ -351,10 +365,10 @@ export default {
     },
     formatJsonImportar(filterVal) {
       // var vm = this
-      var listaproveedores = [
+      var listaEmpresas = [
         {
           // idtercero      : '',
-          idcliente      : !this.administrador ? JSON.parse(localStorage.getItem('itemproveedoreseleccionado')) : '',
+          idempresa      : !this.administrador ? JSON.parse(localStorage.getItem('itemEmpresaSeleccionado')) : '',
           ruc            : '',
           nombre         : '',
           direccion      : '',
@@ -363,7 +377,7 @@ export default {
           fecharegistro  : moment().format()
         }
       ]
-      return listaproveedores.map(v => filterVal.map(j => {
+      return listaEmpresas.map(v => filterVal.map(j => {
         return v[j]
         // if (j === 'timestamp') {
         //   return parseTime(v[j])
@@ -391,7 +405,7 @@ export default {
         vm.resetTemp()
       } else {
         vm.temporal = {
-          idcliente      : vm.obj.idcliente,
+          idempresa      : vm.obj.idempresa,
           nombre         : vm.obj.nombre,
           ruc            : vm.obj.ruc,
           direccion      : vm.obj.direccion,
@@ -437,7 +451,7 @@ export default {
       vm.dialogFormVisible  = false
     },
     setCurrent (row) {
-      this.$refs.tblproveedores.setCurrentRow(row)
+      this.$refs.tblempresas.setCurrentRow(row)
     },
     openModalEliminar (tipo) {
       var vm          = this
@@ -451,7 +465,7 @@ export default {
     },
     closeModalliminar () {
       var vm                          = this
-      vm.$refs.tblproveedores.clearSelection()
+      vm.$refs.tblempresas.clearSelection()
       vm.tipoaccion                   = 0
       vm.dialogStatus                 = ''
       vm.arreglo               = []
@@ -469,7 +483,7 @@ export default {
         tipoaccion    : vm.tipoaccion,
         arreglo: vm.arreglo
       }
-      proveedoresMantenimiento(obj).then(data => {
+      empresasMantenimiento(obj).then(data => {
         console.log('data: ', data)
         vm.cargandoInformacion = vm.isLoading
         var texto = vm.arreglo.length >= 2 ? 'Se han eliminado correctamente las empresa' : 'Se ah elimiando correctamente la empresa.'
@@ -515,7 +529,7 @@ export default {
       var obj = {
         tipoaccion: 1
       }
-      proveedoresUUID(obj).then(data => {
+      empresasUUID(obj).then(data => {
         console.log('data: ', data)
         console.log('data.uuid:>>> : ', data.uuid)
         vm.isSavingAdjunto = vm.isLoading
@@ -618,7 +632,7 @@ export default {
       }
       console.log('obj :', obj)
       // return
-      proveedoresUploadPlantillaCargaMasiva(obj, function (data) {
+      empresasUploadPlantillaCargaMasiva(obj, function (data) {
         // this.$store.dispatch('procesos/openProcesos')
         callback(null)
       }, function (err) {

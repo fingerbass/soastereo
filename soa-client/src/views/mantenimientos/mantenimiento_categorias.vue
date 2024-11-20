@@ -18,7 +18,7 @@
     //-   | Limpiar
     el-button.filter-item(v-waves='' :loading='cargandoInformacion' type='success' icon='el-icon-refresh' size='mini' @click='fetch()' :disabled="cargandoInformacion")
       | Actualizar
-  el-table(ref="tblcategorias" @selection-change="handleSelectionChange" :key='tableKey' v-loading='cargandoInformacion' :data='listacategorias'  :border='false' fit='' highlight-current-row='' height="calc(100vh - 218px)" max-height="calc(100vh - 218px)" style="width: 100%;" size='mini' @sortByName-change='sortChange' @current-change="handleCurrentChange" :row-class-name="tableRowClassName" @cell-dblclick= "dblhandlecurrentchange" @row-click="rowClicked" @row-dblclick="rowDblClicked" empty-text="No existen Registros")
+  el-table(ref="tblcategorias" @selection-change="handleSelectionChange" :key='tableKey' v-loading='cargandoInformacion' :data='listacategorias'  :border='false' fit='' highlight-current-row='' height="calc(100vh - 220px)" max-height="calc(100vh - 220px)" style="width: 100%;" size='mini' @sortByName-change='sortChange' @current-change="handleCurrentChange" :row-class-name="tableRowClassName" @cell-dblclick= "dblhandlecurrentchange" @row-click="rowClicked" @row-dblclick="rowDblClicked" empty-text="No existen Registros")
     el-table-column(type='selection' width='30')
     //- el-table-column(label='ID' prop='idcategoria' sortable='custom' align='center' width='60' :class-name="getSortClass('idcategoria')")
     //-   template(slot-scope='{row}')

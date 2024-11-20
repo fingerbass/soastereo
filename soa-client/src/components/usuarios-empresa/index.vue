@@ -129,7 +129,7 @@ export default {
         idestado: 2
       }
       usuariosLista(obj).then(data => {
-        console.log('data empresas:  ', data)
+        console.log('data usuarios:  ', data)
         for (let i = 0; i < data.lista.length; i++) {
           vm.listaUsuarios.push(data.lista[i])
         }
@@ -147,7 +147,7 @@ export default {
       vm.isLoadingRoles  = true
       var obj               = {}
       rolesLista(obj).then(data => {
-        console.log('data empresas:  ', data)
+        console.log('data roles:  ', data)
         for (let i = 0; i < data.lista.length; i++) {
           vm.listaRoles.push(data.lista[i])
         }

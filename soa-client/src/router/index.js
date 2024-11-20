@@ -230,6 +230,16 @@ export const asyncRoutes = [
           icon : 'el-icon-user-solid',
           roles: ['ADMINISTRADOR', 'USUARIO', 'CONSULTOR'] // o solo puede establecer roles en la navegación secundaria
         }
+      },
+      {
+        path: 'matenimiento-empresa',
+        component: () => import('@/views/login/mantenimiento_empresas'),
+        name: 'MantenimientoEmpresa',
+        meta: {
+          title: 'Empresas',
+          icon : 'el-icon-user-solid',
+          roles: ['ADMINISTRADOR', 'USUARIO', 'CONSULTOR'] // o solo puede establecer roles en la navegación secundaria
+        }
       }
     ]
   },
@@ -257,6 +267,16 @@ export const asyncRoutes = [
         }
       },
       {
+        path: 'proveedores',
+        component: () => import('@/views/mantenimientos/mantenimiento_proveedores'),
+        name: 'MantenimientoProveedores',
+        meta: {
+          icon : 'el-icon-office-building',
+          title: 'Proveedores',
+          roles: ['ADMINISTRADOR', 'SUPERVISOR', 'USUARIO']  // o solo puede establecer roles en la navegación secundaria
+        }
+      },
+      {
         path: 'clientes',
         component: () => import('@/views/mantenimientos/mantenimiento_clientes'),
         name: 'MantenimientoClientes',
@@ -273,16 +293,6 @@ export const asyncRoutes = [
         meta: {
           icon : 'el-icon-office-building',
           title: 'Eventos',
-          roles: ['ADMINISTRADOR', 'SUPERVISOR', 'USUARIO']  // o solo puede establecer roles en la navegación secundaria
-        }
-      },
-      {
-        path: 'proveedores',
-        component: () => import('@/views/mantenimientos/mantenimiento_proveedores'),
-        name: 'MantenimientoProveedores',
-        meta: {
-          icon : 'el-icon-office-building',
-          title: 'Proveedores',
           roles: ['ADMINISTRADOR', 'SUPERVISOR', 'USUARIO']  // o solo puede establecer roles en la navegación secundaria
         }
       }

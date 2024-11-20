@@ -18,7 +18,7 @@
     //-   | Limpiar
     el-button.filter-item(v-waves='' :loading='cargandoInformacion' type='success' icon='el-icon-refresh' size='mini' @click='fetch()' :disabled="cargandoInformacion")
       | Actualizar
-  el-table(ref="tblusuarios" @selection-change="handleSelectionChange" :key='tableKey' v-loading='cargandoInformacion' :border='false' fit='' highlight-current-row='' height="calc(100vh - 218px)" max-height="calc(100vh - 218px)" style="width: 100%;" size='mini' @sortByName-change='sortChange' @current-change="handleCurrentChange" :row-class-name="tableRowClassName" @cell-dblclick= "dblhandlecurrentchange" @row-click="rowClicked" @row-dblclick="rowDblClicked"
+  el-table(ref="tblusuarios" @selection-change="handleSelectionChange" :key='tableKey' v-loading='cargandoInformacion' :border='false' fit='' highlight-current-row='' height="calc(100vh - 220px)" max-height="calc(100vh - 220px)" style="width: 100%;" size='mini' @sortByName-change='sortChange' @current-change="handleCurrentChange" :row-class-name="tableRowClassName" @cell-dblclick= "dblhandlecurrentchange" @row-click="rowClicked" @row-dblclick="rowDblClicked"
   :data="listaUsuarios" empty-text="No existen Registros")
     //- :data="listaUsuarios.filter(data => !search || data.nombre.toLowerCase().includes(search.toLowerCase()) || data.paterno.toLowerCase().includes(search.toLowerCase()) || data.materno.toLowerCase().includes(search.toLowerCase()))"
 

@@ -1,16 +1,13 @@
 <template lang="pug">
 el-form(ref='form' :model='form' label-width='80px' size="mini" :label-position="isMovil ? 'top' : 'right'" :rules="rules" class="demo-formusuario")
-  //- el-input.is-uppercase(v-if="tipoaccion === 2" size='mini' placeholder='ID' v-model='idcliente')
+  //- el-input.is-uppercase(v-if="tipoaccion === 2" size='mini' placeholder='ID' v-model='idempresa')
   el-row
     el-col(:xs="24" :sm="24" :md="24" :lg="24" :xl="24")
-      el-form-item(label='Nombres' size='mini')
-        el-input.is-uppercase(size='mini' placeholder='Nombres' v-model='form.nombres')
+      el-form-item(label='Nombre' size='mini')
+        el-input.is-uppercase(size='mini' placeholder='Nombre' v-model='form.nombre')
     el-col(:xs="24" :sm="24" :md="24" :lg="24" :xl="24")
-      el-form-item(label='Apellidos' size='mini')
-        el-input.is-uppercase(size='mini' placeholder='Apellidos' v-model='form.apellidos')
-    el-col(:xs="24" :sm="24" :md="24" :lg="24" :xl="24")
-      el-form-item(label='DNI' size='mini')
-        el-input.is-uppercase(size='mini' placeholder='Numero Documento' v-model='form.numerodocumento' maxlength="8" show-word-limit)
+      el-form-item(label='Ruc' size='mini')
+        el-input.is-uppercase(size='mini' placeholder='Ruc' v-model='form.ruc' maxlength="11" show-word-limit)
     el-col(:xs="24" :sm="24" :md="24" :lg="24" :xl="24")
       el-form-item(label='Direccion' size='mini')
         el-input.is-uppercase(size='mini' placeholder='Direccion' v-model='form.direccion')
@@ -21,11 +18,11 @@ el-form(ref='form' :model='form' label-width='80px' size="mini" :label-position=
       el-form-item(label='Ciudad' size='mini')
         el-input.is-uppercase(size='mini' placeholder='Ciudad' v-model='form.ciudad')
     el-col(:xs="24" :sm="24" :md="24" :lg="24" :xl="24")
-      el-form-item(label='Email' size='mini')
-        el-input.is-uppercase(size='mini' placeholder='Email' v-model='form.email')
-    el-col(:xs="24" :sm="24" :md="24" :lg="24" :xl="24")
       el-form-item(label='Telefono' size='mini')
         el-input.is-uppercase(size='mini' placeholder='Telefono' v-model='form.telefono')
+    el-col(:xs="24" :sm="24" :md="24" :lg="24" :xl="24")
+      el-form-item(label='Email' size='mini')
+        el-input.is-uppercase(size='mini' placeholder='Email' v-model='form.email')
     el-col(:xs="24" :sm="24" :md="24" :lg="24" :xl="24")
       el-form-item(label='Activo' size='mini')
         el-switch(size='mini' placeholder='Activo' v-model='form.activo' active-color="#1890ff" inactive-color="#ff4949")
@@ -37,6 +34,28 @@ el-form(ref='form' :model='form' label-width='80px' size="mini" :label-position=
   //-   el-col(:xs="24" :sm="24" :md="24" :lg="24" :xl="24")
   //-     el-form-item(label='FECHA REGISTRO' size='mini')
   //-       el-input.is-uppercase(size='mini' placeholder='FECHA REGISTRO' v-model='form.fecharegistro')
+  el-row.demo-avatar.demo-basic.text-align-center.margin-bottom-10px
+    el-col(:xs="24" :sm="24" :md="12" :lg="12" :xl="12")
+      el-upload.avatar-uploader(action='#' accept='image/*' list-type="picture-card"  :show-file-list='false' :on-success='handleAvatarSuccessLogo' :before-upload='beforeAvatarUploadLogo' :on-remove='handleRemoveLogo' :on-preview='handlePictureCardPreviewLogo')
+        img.avatar(v-if='form.logo' :src='form.logo')
+        i.el-icon-plus.avatar-uploader-icon(v-else='')
+        .el-upload__tip(slot='tip') Solo archivos jpg/png/jfif con un tamaño menor de 2MB
+    el-col(:xs="24" :sm="24" :md="12" :lg="12" :xl="12")
+      el-upload.avatar-uploader(action='#' accept='image/*' list-type="picture-card"  :show-file-list='false' :on-success='handleAvatarSuccessIsotipo' :before-upload='beforeAvatarUploadIsotipo' :on-remove='handleRemoveIsotipo' :on-preview='handlePictureCardPreviewIsotipo')
+        img.avatar(v-if='form.isotipo' :src='form.isotipo')
+        i.el-icon-plus.avatar-uploader-icon(v-else='')
+        .el-upload__tip(slot='tip') Solo archivos jpg/png/jfif con un tamaño menor de 2MB
+  //- el-row.demo-avatar.demo-basic.text-align-center.margin-bottom-20px
+  //-   el-col(:span='12')
+  //-     .demo-basic--circle
+  //-       .block
+  //-         el-avatar(:size='100' :src='form.logo')
+  //-     input(@change="handleImageLogo" class="custom-input" type="file" accept="image/*")
+  //-   el-col(:span='12')
+  //-     .demo-basic--circle
+  //-       .block
+  //-         el-avatar(:size='100' :src='form.isotipo')
+  //-     input(@change="handleImageIsotipo" class="custom-input" type="file" accept="image/*")
   el-form-item
     el-row
       el-col(:xs="12" :sm="12" :md="12" :lg="12" :xl="12")
@@ -46,11 +65,11 @@ el-form(ref='form' :model='form' label-width='80px' size="mini" :label-position=
 </template>
 
 <script>
-import { clientesMantenimiento }  from '@/api/clientes'
+import { empresasMantenimiento }  from '@/api/empresas'
 import { notify }                 from '@/utils/general.js'
 import { mapState }               from 'vuex'
 export default {
-  name: 'FormClientes',
+  name: 'FormEmpresa',
   props: {
     title: {
       type    : String,
@@ -73,16 +92,17 @@ export default {
   data() {
     return {
       form: {
-        idcliente      : null,
-        nombres        : '',
-        apellidos      : '',
-        numerodocumento: '',
+        idempresa      : null,
+        nombre         : '',
+        ruc            : '',
         direccion      : '',
         distrito       : '',
         ciudad         : '',
         telefono       : '',
         email          : '',
         activo         : true,
+        logo           : '',
+        isotipo        : '',
         usuarioregistro: localStorage.getItem('username'),
         fecharegistro  : ''
       },
@@ -137,10 +157,9 @@ export default {
     cargarDatosVacios () {
       var vm          = this
       vm.form = {
-        idcliente      : null,
-        nombres         : '',
-        apellidos         : '',
-        numerodocumento            : '',
+        idempresa      : null,
+        nombre         : '',
+        ruc            : '',
         direccion      : '',
         distrito       : '',
         ciudad         : '',
@@ -160,10 +179,9 @@ export default {
         vm.cargarDatosVacios()
       } else {
         vm.form = {
-          idcliente      : vm.model.idcliente,
-          nombres        : vm.model.nombres,
-          apellidos      : vm.model.apellidos,
-          numerodocumento: vm.model.numerodocumento,
+          idempresa      : vm.model.idempresa,
+          nombre         : vm.model.nombre,
+          ruc            : vm.model.ruc,
           direccion      : vm.model.direccion,
           distrito       : vm.model.distrito,
           ciudad         : vm.model.ciudad,
@@ -179,16 +197,12 @@ export default {
     },
     onSubmit() {
       var vm                  = this
-      if (vm.form.nombres === null || vm.form.nombres === undefined || vm.form.nombres === '') {
-        notify(vm, 'error', 'Error', 'Debe ingresar un nombres.')
+      if (vm.form.nombre === null || vm.form.nombre === undefined || vm.form.nombre === '') {
+        notify(vm, 'error', 'Error', 'Debe ingresar un nombre.')
         return
       }
-      if (vm.form.apellidos === null || vm.form.apellidos === undefined || vm.form.apellidos === '') {
-        notify(vm, 'error', 'Error', 'Debe ingresar un apellidos.')
-        return
-      }
-      if (vm.form.numerodocumento === null || vm.form.numerodocumento === undefined || vm.form.numerodocumento === '') {
-        notify(vm, 'error', 'Error', 'Debe ingresar un numerodocumento.')
+      if (vm.form.ruc === null || vm.form.ruc === undefined || vm.form.ruc === '') {
+        notify(vm, 'error', 'Error', 'Debe ingresar un ruc.')
         return
       }
       if (vm.form.direccion === null || vm.form.direccion === undefined || vm.form.direccion === '') {
@@ -213,24 +227,25 @@ export default {
       }
       vm.cargandoInformacion  = true
       var arreglo = {
-        idcliente      : vm.form.idcliente,
-        nombres        : vm.form.nombres,
-        apellidos      : vm.form.apellidos,
-        numerodocumento: vm.form.numerodocumento,
+        idempresa      : vm.form.idempresa,
+        nombre         : vm.form.nombre,
+        ruc            : vm.form.ruc,
         direccion      : vm.form.direccion,
         distrito       : vm.form.distrito,
         ciudad         : vm.form.ciudad,
         telefono       : vm.form.telefono,
         email          : vm.form.email,
         activo         : vm.form.activo,
+        logo           : vm.form.logo,
+        isotipo        : vm.form.isotipo,
         usuarioregistro: vm.form.usuarioregistro,
         fecharegistro  : vm.form.fecharegistro
       }
       var obj = {
-        tipoaccion: vm.tipoaccion,
-        arreglo   : arreglo
+        tipoaccion    : vm.tipoaccion,
+        arreglo: arreglo
       }
-      clientesMantenimiento(obj).then(data => {
+      empresasMantenimiento(obj).then(data => {
         console.log('data: ', data)
         vm.cargandoInformacion = vm.isLoading
         vm.save()
