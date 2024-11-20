@@ -107,6 +107,7 @@ window.moment = moment
 
 // var token  = localStorage.getItem('token')
 // Vue.axios.defaults.baseURL                                   = process.env.VUE_APP_BASE_API
+// console.log('process: ', process.env.VUE_APP_BASE_API)
 Vue.axios.defaults.baseURL                                   = process.env.VUE_APP_API_ROUTE
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 

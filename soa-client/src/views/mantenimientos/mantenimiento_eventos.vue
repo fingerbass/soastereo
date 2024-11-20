@@ -1,115 +1,115 @@
 <template lang="pug">
-div
-  .filters
-    el-row(:gutter="10")
-      el-col(:xs="24" :sm="8" :md="8" :lg="8" :xl="8")
-        el-input(
-          size="mini"
-          placeholder="Buscar por nombre, lugar o descripción..."
-          v-model="listQuery.search"
-          @keyup.enter.native="handleFilter"
-          clearable
-          prefix-icon="el-icon-search"
-        )
-      el-col(:xs="24" :sm="8" :md="8" :lg="8" :xl="8")
-        el-date-picker(
-          v-model="listQuery.fecha"
-          type="date"
-          size="mini"
-          style="width: 100%"
-          placeholder="Seleccione fecha"
-          value-format="yyyy-MM-dd"
-          @change="handleFilter"
-          clearable
-        )
-      el-col(:xs="24" :sm="8" :md="8" :lg="8" :xl="8")
-        el-select(
-          v-model="listQuery.estado"
-          placeholder="Estado"
-          clearable
-          style="width: 100%"
-          size="mini"
-          @change="handleFilter"
-        )
-          el-option(
-            v-for="item in estadosEvento"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
+  div
+    .filters
+      el-row(:gutter="10")
+        el-col(:xs="24" :sm="8" :md="8" :lg="8" :xl="8")
+          el-input(
+            size="mini"
+            placeholder="Buscar por nombre, lugar o descripción..."
+            v-model="listQuery.search"
+            @keyup.enter.native="handleFilter"
+            clearable
+            prefix-icon="el-icon-search"
+          )
+        el-col(:xs="24" :sm="8" :md="8" :lg="8" :xl="8")
+          el-date-picker(
+            v-model="listQuery.fecha"
+            type="date"
+            size="mini"
+            style="width: 100%"
+            placeholder="Seleccione fecha"
+            value-format="yyyy-MM-dd"
+            @change="handleFilter"
+            clearable
+          )
+        el-col(:xs="24" :sm="8" :md="8" :lg="8" :xl="8")
+          el-select(
+            v-model="listQuery.idestado"
+            placeholder="Estado"
+            clearable
+            style="width: 100%"
+            size="mini"
+            @change="handleFilter"
+          )
+            el-option(
+              v-for="item in estadosEvento"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            )
+
+      el-row.margin-top-10
+        el-col(:span="24")
+          el-button(
+            size="mini"
+            type="primary"
+            icon="el-icon-plus"
+            @click="handleCreate"
+          ) Nuevo Evento
+
+    el-table.margin-top-10(
+      v-loading="listLoading"
+      :data="list"
+      border
+      fit
+      highlight-current-row
+      size="mini"
+      style="width: 100%"
+    )
+      el-table-column(label="Nombre" prop="nombre" min-width="200")
+      el-table-column(label="Fecha" width="120" align="center")
+        template(slot-scope="{row}")
+          span {{ row.fecha_formato }}
+      el-table-column(label="Lugar" prop="lugar" min-width="150")
+      el-table-column(label="Descripción" prop="descripcion" min-width="200")
+      el-table-column(label="Estado" width="120" align="center")
+        template(slot-scope="{row}")
+          el-tag(:type="getEstadoTag(row.estado)") {{ row.estado }}
+      el-table-column(label="Costo Total" width="120" align="right")
+        template(slot-scope="{row}")
+          span {{ formatCurrency(row.costo_total) }}
+      el-table-column(label="Usuario" prop="usuarioregistro" min-width="100")
+      el-table-column(label="Acciones" align="center" width="120" fixed="right")
+        template(slot-scope="{row}")
+          el-button(
+            size="mini"
+            type="primary"
+            icon="el-icon-edit"
+            @click="handleUpdate(row)"
+          )
+          el-button(
+            size="mini"
+            type="danger"
+            icon="el-icon-delete"
+            @click="handleDelete(row)"
           )
 
-    el-row.margin-top-10
-      el-col(:span="24")
-        el-button(
-          size="mini"
-          type="primary"
-          icon="el-icon-plus"
-          @click="handleCreate"
-        ) Nuevo Evento
-
-  el-table.margin-top-10(
-    v-loading="listLoading"
-    :data="list"
-    border
-    fit
-    highlight-current-row
-    size="mini"
-    style="width: 100%"
-  )
-    el-table-column(label="Nombre" prop="nombre" min-width="200")
-    el-table-column(label="Fecha" width="120" align="center")
-      template(slot-scope="{row}")
-        span {{ row.fecha_formato }}
-    el-table-column(label="Lugar" prop="lugar" min-width="150")
-    el-table-column(label="Descripción" prop="descripcion" min-width="200")
-    el-table-column(label="Estado" width="120" align="center")
-      template(slot-scope="{row}")
-        el-tag(:type="getEstadoTag(row.estado)") {{ row.estado }}
-    el-table-column(label="Costo Total" width="120" align="right")
-      template(slot-scope="{row}")
-        span {{ formatCurrency(row.costo_total) }}
-    el-table-column(label="Usuario" prop="usuarioregistro" min-width="100")
-    el-table-column(label="Acciones" align="center" width="120" fixed="right")
-      template(slot-scope="{row}")
-        el-button(
-          size="mini"
-          type="primary"
-          icon="el-icon-edit"
-          @click="handleUpdate(row)"
-        )
-        el-button(
-          size="mini"
-          type="danger"
-          icon="el-icon-delete"
-          @click="handleDelete(row)"
-        )
-
-  el-pagination.pagination-container(
-    background
-    layout="total, sizes, prev, pager, next"
-    :total="total"
-    :page-size="listQuery.limit"
-    :page-sizes="[10,20,30,50]"
-    :current-page.sync="listQuery.page"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-  )
-
-  el-dialog(
-    :title="textDialog"
-    :visible.sync="dialogFormVisible"
-    :close-on-click-modal="false"
-    width="600px"
-  )
-    form-eventos(
-      v-if="dialogFormVisible"
-      :title="textDialog"
-      :tipoaccion="tipoaccion"
-      :model="temp"
-      @save="getList"
-      @close="dialogFormVisible = false"
+    el-pagination.pagination-container(
+      background
+      layout="total, sizes, prev, pager, next"
+      :total="total"
+      :page-size="listQuery.limit"
+      :page-sizes="[10,20,30,50]"
+      :current-page.sync="listQuery.page"
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
     )
-</template>
+
+    el-dialog(
+      :title="textDialog"
+      :visible.sync="dialogFormVisible"
+      :close-on-click-modal="false"
+      width="600px"
+    )
+      form-eventos(
+        v-if="dialogFormVisible"
+        :title="textDialog"
+        :tipoaccion="tipoaccion"
+        :model="temp"
+        @save="getList"
+        @close="dialogFormVisible = false"
+      )
+  </template>
 
 <script>
 import { eventosLista, eventosMantenimiento } from '@/api/eventos'
@@ -135,14 +135,15 @@ export default {
         limit: 10,
         search: undefined,
         fecha: undefined,
-        estado: undefined,
+        idestado: 2,  // Por defecto mostrará todos
         sort: '+id'
       },
       estadosEvento: [
-        { value: 'PENDIENTE', label: 'Pendiente' },
-        { value: 'EN_PROCESO', label: 'En Proceso' },
-        { value: 'COMPLETADO', label: 'Completado' },
-        { value: 'CANCELADO', label: 'Cancelado' }
+        { value: 1, label: 'Pendiente' },
+        { value: 2, label: 'Todos' },
+        { value: 3, label: 'En Proceso' },
+        { value: 4, label: 'Completado' },
+        { value: 5, label: 'Cancelado' }
       ],
       dialogFormVisible: false,
       textDialog: '',
@@ -156,11 +157,14 @@ export default {
   methods: {
     async getList() {
       try {
+        console.log('Enviando query:', this.listQuery)
         this.listLoading = true
         const response = await eventosLista(this.listQuery)
-        this.list = response.data.lista
-        this.total = response.data.cantidad
+        console.log('Respuesta:', response)
+        this.list = response.lista
+        this.total = response.cantidad
       } catch (error) {
+        console.error('Error:', error)
         notify(this, 'error', 'Error', error.message || 'Error al cargar la lista')
       } finally {
         this.listLoading = false
@@ -171,10 +175,10 @@ export default {
     },
     getEstadoTag(estado) {
       const tags = {
-        'PENDIENTE': 'warning',
-        'EN_PROCESO': 'primary',
-        'COMPLETADO': 'success',
-        'CANCELADO': 'danger'
+        'Pendiente': 'warning',
+        'En Proceso': 'primary',
+        'Completado': 'success',
+        'Cancelado': 'danger'
       }
       return tags[estado] || 'info'
     },
@@ -197,7 +201,7 @@ export default {
         fecha: '',
         lugar: '',
         descripcion: '',
-        estado: 'PENDIENTE',
+        estado: 'Pendiente',
         costo_total: 0,
         usuarioregistro: localStorage.getItem('username')
       }
@@ -237,41 +241,41 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.filters {
-  padding: 15px;
-  border-radius: 4px;
-  background-color: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
-  margin-bottom: 20px;
+  <style lang="scss" scoped>
+  .filters {
+    padding: 15px;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0,21,41,.08);
+    margin-bottom: 20px;
 
-  .el-select, .el-date-picker {
-    width: 100%;
+    .el-select, .el-date-picker {
+      width: 100%;
+    }
+
+    .el-input {
+      margin-bottom: 10px;
+    }
   }
 
-  .el-input {
-    margin-bottom: 10px;
+  .pagination-container {
+    margin-top: 20px;
+    text-align: center;
   }
-}
 
-.pagination-container {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.el-table {
-  .el-button + .el-button {
-    margin-left: 5px;
+  .el-table {
+    .el-button + .el-button {
+      margin-left: 5px;
+    }
   }
-}
 
-.margin-top-10 {
-  margin-top: 10px;
-}
-
-.el-dialog {
-  .el-dialog__body {
-    padding: 20px;
+  .margin-top-10 {
+    margin-top: 10px;
   }
-}
-</style>
+
+  .el-dialog {
+    .el-dialog__body {
+      padding: 20px;
+    }
+  }
+  </style>

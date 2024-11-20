@@ -3,20 +3,20 @@ var moment = require('moment')
   , _      = require('lodash')
   ;
 
-// MANTENIMIENTO DE EVENTOS
-var eventosLista = function(req, res) {
+// MANTENIMIENTO DE PROVEEDORES
+var proveedoresLista = function(req, res) {
   var usuarioLogueado   = req.decoded ? req.decoded.usuario : 'undefined'
   var empresa           = req.query.empresa           || 'soa'
   var idestado         = req.query.idestado          || 2
   var sortByName       = req.query.sortByName        || 'id'
   var sortByType       = req.query.sortByType        || 'ASC'
   var ultimoRecnum     = req.query.ultimoRecnum      || 0
-  var cantidadRegistros = req.query.limit
+  var cantidadRegistros = req.query.limit || 0
   var pagination       = req.query.pagination        || 1
   var textSearch       = req.query.textSearch
   var isExcel         = false
 
-  var query = ` EXEC USP_adm_eventos_lista @idestado`
+  var query = ` EXEC USP_adm_proveedores_lista @idestado`
 
   var parameters = {}
   var isWhere = false
@@ -29,12 +29,12 @@ var eventosLista = function(req, res) {
     status: 0
   }
 
-  api.sql.adm_eventos.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
+  api.sql.adm_proveedores.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
     if (err) {
       res.send({ status: 0, message: err.message})
       return
     }
-    console.log('lista', lista)
+
     if (lista.length < cantidadRegistros) response.noMore = true
     else {
       if (ultimoRecnum === lista[lista.length -1].ultimoRecnum) response.noMore = true
@@ -58,12 +58,13 @@ var eventosLista = function(req, res) {
   })
 }
 
-var eventosMantenimiento = function(req, res) {
+var proveedoresMantenimiento = function(req, res) {
   var usuarioLogueado = req.decoded ? req.decoded.usuario : 'undefined'
   var username = req.body.username || 'soa'
   var empresa = req.body.empresa || 'soa'
-  var tipoaccion = req.body.tipoaccion
-  var evento = req.body.evento || {}
+  var idestado = req.body.idestado || 2
+  var arreglo = req.body.arreglo || {}
+  var tipoaccion = req.body.tipoaccion || 0
 
   var response = {
     status: 0
@@ -72,32 +73,37 @@ var eventosMantenimiento = function(req, res) {
   if (tipoaccion === 1 || tipoaccion === 2) {
     var obj = {
       tipo: +tipoaccion,
-      id: evento.id,
-      nombre: evento.nombre,
-      fecha: evento.fecha,
-      lugar: evento.lugar,
-      descripcion: evento.descripcion,
-      estado: evento.estado || 'PENDIENTE',
-      costo_total: evento.costo_total || 0,
-      usuarioregistro: evento.usuarioregistro || username
+      id: arreglo.id,
+      nombre: arreglo.nombre,
+      email: arreglo.email,
+      telefono: arreglo.telefono,
+      direccion: arreglo.direccion,
+      reputacion: arreglo.reputacion,
+      verificado: arreglo.verificado,
+      activo: arreglo.activo,
+      idcategoria: arreglo.idcategoria,
+      usuarioregistro: arreglo.usuarioregistro || username
     }
 
-    var query = ` EXEC USP_adm_eventos_mantenimiento 
-      @tipo, @id, @nombre, @fecha, @lugar, @descripcion, 
-      @estado, @costo_total, @usuarioregistro`
+    var query = ` EXEC USP_adm_proveedores_mantenimiento 
+      @tipo, @id, @nombre, @email, @telefono, @direccion,
+      @reputacion, @verificado, @activo, @idcategoria, @usuarioregistro`
 
-    var parameters = {}
-    parameters.tipo = obj.tipo
-    parameters.id = obj.id
-    parameters.nombre = obj.nombre
-    parameters.fecha = obj.fecha
-    parameters.lugar = obj.lugar
-    parameters.descripcion = obj.descripcion
-    parameters.estado = obj.estado
-    parameters.costo_total = obj.costo_total
-    parameters.usuarioregistro = obj.usuarioregistro
+    var parameters = {
+      tipo: obj.tipo,
+      id: obj.id,
+      nombre: obj.nombre,
+      email: obj.email,
+      telefono: obj.telefono,
+      direccion: obj.direccion,
+      reputacion: obj.reputacion,
+      verificado: obj.verificado,
+      activo: obj.activo,
+      idcategoria: obj.idcategoria,
+      usuarioregistro: obj.usuarioregistro
+    }
 
-    api.sql.adm_eventos.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
+    api.sql.adm_proveedores.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
       if (err) {
         res.send({ status: 0, message: err.message})
         return
@@ -110,12 +116,13 @@ var eventosMantenimiento = function(req, res) {
     })
   } 
   else if (tipoaccion === 3) {
-    var query = ` EXEC USP_adm_eventos_mantenimiento @tipo, @id `
-    var parameters = {}
-    parameters.tipo = tipoaccion
-    parameters.id = evento.id
+    var query = ` EXEC USP_adm_proveedores_mantenimiento @tipo, @id `
+    var parameters = {
+      tipo: tipoaccion,
+      id: arreglo.id
+    }
 
-    api.sql.adm_eventos.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
+    api.sql.adm_proveedores.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
       if (err) {
         res.send({ status: 0, message: err.message})
         return
@@ -130,5 +137,5 @@ var eventosMantenimiento = function(req, res) {
   }
 }
 
-exports.eventosLista = eventosLista
-exports.eventosMantenimiento = eventosMantenimiento
+exports.proveedoresLista = proveedoresLista
+exports.proveedoresMantenimiento = proveedoresMantenimiento

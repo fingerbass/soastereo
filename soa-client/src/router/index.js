@@ -285,6 +285,16 @@ export const asyncRoutes = [
           title: 'Proveedores',
           roles: ['ADMINISTRADOR', 'SUPERVISOR', 'USUARIO']  // o solo puede establecer roles en la navegación secundaria
         }
+      },
+      {
+        path: 'evaluacion',
+        component: () => import('@/views/mantenimientos/mantenimiento_evaluacion'),
+        name: 'MantenimientoEvaluacion',
+        meta: {
+          icon: 'el-icon-office-building',
+          title: 'Evaluación de Proveedores',
+          roles: ['ADMINISTRADOR', 'SUPERVISOR', 'USUARIO']
+        }
       }
     ]
   },

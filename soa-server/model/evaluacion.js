@@ -14,10 +14,10 @@ var evaluacionLista = function(req, res) {
       p.nombre as proveedor_nombre,
       c.nombre as categoria_nombre,
       ev.nombre as evento_nombre
-    FROM evaluacion e
-    INNER JOIN proveedor p ON e.proveedor_id = p.id
+    FROM adm_evaluacion e
+    INNER JOIN adm_proveedor p ON e.proveedor_id = p.id
     INNER JOIN adm_categorias c ON p.idcategoria = c.idcategoria
-    INNER JOIN evento ev ON e.evento_id = ev.id
+    INNER JOIN adm_evento ev ON e.evento_id = ev.id
     WHERE (@proveedor_id IS NULL OR e.proveedor_id = @proveedor_id)
     ORDER BY e.creado_en DESC
   `
@@ -34,6 +34,13 @@ var evaluacionLista = function(req, res) {
     if (err) {
       res.send({ status: 0, message: err.message})
       return
+    }
+
+    if (lista && lista.length > 0) {
+      for (let i = 0; i < lista.length; i++) {
+        const element = lista[i];
+        element.creado_en = element.creado_en ? moment(element.creado_en).format('DD/MM/YYYY') : null
+      }
     }
 
     response.status = 1

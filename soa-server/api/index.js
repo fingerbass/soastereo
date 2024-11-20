@@ -10,6 +10,7 @@ var api = {
 		adm_categorias       : require('./sql_adm_categorias'),
 		adm_evaluacion		 	 : require('./sql_adm_evaluacion'),
 		adm_eventos					 : require('./sql_adm_eventos'),
+		adm_proveedores			 : require('./sql_adm_proveedores'),
   },
   ws : {
   }

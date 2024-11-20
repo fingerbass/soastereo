@@ -52,6 +52,7 @@ app.use('/clientes', 							  require('./router/clientes'))
 app.use('/categorias', 							require('./router/categorias'))
 app.use('/evaluacion', 							require('./router/evaluacion'))
 app.use('/eventos', 								require('./router/eventos'))
+app.use('/proveedores', 						require('./router/proveedores'))
 // Fin Routes
 
 var storage = multer.diskStorage({
