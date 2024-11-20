@@ -117,8 +117,6 @@ var eventosMantenimiento = function(req, res) {
             res.send({ status: 0, message: err.message})
             return
           }
-  
-  
         })
       }
 
@@ -208,21 +206,19 @@ var sendEmailNotificacionAdministrador = function(empresa, obj, callback) {
                       <td style="padding:0cm 0cm 18.75pt 0cm"><p><br /></p><p>Hola, ${obj.nombre}:
                         <br />
                         <br />
-                        Hemos recibido la creacion de un evento.
+                        Se ah Creado un evento.
                         <br />
                         <br />
                         <strong>
-                          El evento esTu contraseña temporal es:
+                          El evento esta creado:
                           <br />
                           <div style="border:double; background:#2f3fb6; color:white; text-align:center;padding: 10px; font-size:20px; font-weight:700;border-radius:10px;">
                             <span> ${obj.email} </span>
                           </div>
                         </strong>
                         <br />
-                        Ingresa este código como contraseña en la pantalla de inicio de sesión de la plataforma, puedes hacerlo&nbsp; ${plataforma_link_aqui}.&nbsp;</p><p>
-                        Seguidamente tendrás que especificar una nueva contraseña para poder continuar.</p>
-                        <p>
-                        </p><p>Atentamente,</p><p> Plataforma soa
+                        Ingrese a la plataforma para verificar el evento creado la pantalla de inicio de sesión de la plataforma, puedes hacerlo&nbsp; ${plataforma_link_aqui}.&nbsp;</p>
+                        <p></p><p>Atentamente,</p><p> Plataforma soa
                         <br /></p><p><br />
                         <span style="font-size: 10pt;"><span style="color: #ff0000;">Por favor no responder a este email. El buzón que generó este correo electrónico no se supervisa en busca de respuestas.</span></span>
                         <br />
