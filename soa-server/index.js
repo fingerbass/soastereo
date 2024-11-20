@@ -51,7 +51,8 @@ app.use('/roles', 									require('./router/roles'))
 app.use('/clientes', 							  require('./router/clientes'))
 app.use('/categorias', 							require('./router/categorias'))
 app.use('/proveedores', 					  require('./router/proveedores'))
-
+app.use('/evaluacion', 							require('./router/evaluacion'))
+app.use('/eventos', 								require('./router/eventos'))
 
 app.use('/empresas', 								require('./router/empresas'))
 // app.use('/empresas-areas', 					require('./router/empresas_areas'))

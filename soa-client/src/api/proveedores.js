@@ -84,3 +84,20 @@ export function proveedoresUploadPlantillaCargaMasiva(data) {
     return false
   })
 }
+
+export function getCategoriasSelect() {
+  const query = {
+    token: getToken(),
+    empresa: process.env.VUE_APP_EMPRESA
+  }
+
+  return request({
+    url: process.env.VUE_APP_API_RUTA_CATEGORIAS + '/lista',
+    method: 'get',
+    params: query
+  }, function(err) {
+    return err
+  }, function() {
+    return false
+  })
+}

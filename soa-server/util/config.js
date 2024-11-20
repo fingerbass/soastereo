@@ -46,11 +46,23 @@ var config = {
 			ruc    : 20115635388,
 			color  : '#b80813',
 			logo   : '',
+			// db     : {
+			// 	object_connection: {
+			// 		user    : 'sa',
+			// 		password: 'sql',
+			// 		server  : '192.168.1.5',
+			// 		database: 'soa',
+			// 		options: {
+			// 			encrypt: false,
+			// 			useUTC : false
+			// 		}
+			// 	}
+			// },
 			db     : {
 				object_connection: {
 					user    : 'sa',
-					password: 'sql',
-					server  : '192.168.1.5',
+					password: 'RivieraInsana++',
+					server  : '135.148.78.170',
 					database: 'soa',
 					options: {
 						encrypt: false,
