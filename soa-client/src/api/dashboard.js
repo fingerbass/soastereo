@@ -1,87 +1,155 @@
-import request        from '@/utils/request'
-import { getToken }   from '@/utils/auth'
+import request from '@/utils/request'
+import { getToken } from '@/utils/auth'
 
+function getQuery() {
+  return {
+    token: getToken(),
+    empresa: process.env.VUE_APP_EMPRESA,
+    username: localStorage.getItem('username'),
+    idusuario: localStorage.getItem('idusuario'),
+    latitud: localStorage.getItem('latitud'),
+    longitud: localStorage.getItem('longitud'),
+    dispositivo: localStorage.getItem('dispositivo'),
+    ip: localStorage.getItem('ip')
+  }
+}
+
+// Funciones existentes del dashboard anterior
 export function dashboardListaPersonas(query) {
-  query.token    = getToken()
-  query.empresa  = process.env.VUE_APP_EMPRESA
-  query.username = localStorage.getItem('username')
-  query.idusuario = localStorage.getItem('idusuario')
-  query.latitud = localStorage.getItem('latitud')
-  query.longitud = localStorage.getItem('longitud')
-  query.dispositivo = localStorage.getItem('dispositivo')
-  query.ip = localStorage.getItem('ip')
-  // console.log('query', query)
   return request({
-    url   : process.env.VUE_APP_API_RUTA_DASHBOARD + '/lista-personas',
+    url: '/api/dashboard/lista-personas',
     method: 'get',
-    params: query
-  }, function (err) {
+    params: {
+      ...getQuery(),
+      ...query
+    }
+  }, function(err) {
     return err
-  }, function () {
+  }, function() {
     return false
   })
 }
 
 export function dashboardListaActivos(query) {
-  query.token    = getToken()
-  query.empresa  = process.env.VUE_APP_EMPRESA
-  query.username = localStorage.getItem('username')
-  query.idusuario = localStorage.getItem('idusuario')
-  query.latitud = localStorage.getItem('latitud')
-  query.longitud = localStorage.getItem('longitud')
-  query.dispositivo = localStorage.getItem('dispositivo')
-  query.ip = localStorage.getItem('ip')
-  // console.log('query', query)
   return request({
-    url   : process.env.VUE_APP_API_RUTA_DASHBOARD + '/lista-activos',
+    url: '/api/dashboard/lista-activos',
     method: 'get',
-    params: query
-  }, function (err) {
+    params: {
+      ...getQuery(),
+      ...query
+    }
+  }, function(err) {
     return err
-  }, function () {
+  }, function() {
     return false
   })
 }
 
 export function dashboardListaCorrespondencia(query) {
-  query.token    = getToken()
-  query.empresa  = process.env.VUE_APP_EMPRESA
-  query.username = localStorage.getItem('username')
-  query.idusuario = localStorage.getItem('idusuario')
-  query.latitud = localStorage.getItem('latitud')
-  query.longitud = localStorage.getItem('longitud')
-  query.dispositivo = localStorage.getItem('dispositivo')
-  query.ip = localStorage.getItem('ip')
-  // console.log('query', query)
   return request({
-    url   : process.env.VUE_APP_API_RUTA_DASHBOARD + '/lista-correspondencia',
+    url: '/api/dashboard/lista-correspondencia',
     method: 'get',
-    params: query
-  }, function (err) {
+    params: {
+      ...getQuery(),
+      ...query
+    }
+  }, function(err) {
     return err
-  }, function () {
+  }, function() {
     return false
   })
 }
 
 export function dashboardListaIncidencias(query) {
-  query.token    = getToken()
-  query.empresa  = process.env.VUE_APP_EMPRESA
-  query.username = localStorage.getItem('username')
-  query.idusuario = localStorage.getItem('idusuario')
-  query.latitud = localStorage.getItem('latitud')
-  query.longitud = localStorage.getItem('longitud')
-  query.dispositivo = localStorage.getItem('dispositivo')
-  query.ip = localStorage.getItem('ip')
-  // console.log('query', query)
   return request({
-    url   : process.env.VUE_APP_API_RUTA_DASHBOARD + '/lista-incidencias',
+    url: '/api/dashboard/lista-incidencias',
     method: 'get',
-    params: query
-  }, function (err) {
+    params: {
+      ...getQuery(),
+      ...query
+    }
+  }, function(err) {
     return err
-  }, function () {
+  }, function() {
     return false
   })
 }
 
+// Nuevas funciones para el dashboard de eventos
+export function getDashboardKpis() {
+  return request({
+    url: '/api/dashboard/eventos/kpis',
+    method: 'get',
+    params: getQuery()
+  }, function(err) {
+    return err
+  }, function() {
+    return false
+  })
+}
+
+export function getDashboardTendencia(fecha) {
+  return request({
+    url: '/api/dashboard/eventos/tendencia',
+    method: 'get',
+    params: {
+      ...getQuery(),
+      fecha: fecha
+    }
+  }, function(err) {
+    return err
+  }, function() {
+    return false
+  })
+}
+
+export function getDashboardRadar() {
+  return request({
+    url: '/api/dashboard/eventos/radar',
+    method: 'get',
+    params: getQuery()
+  }, function(err) {
+    return err
+  }, function() {
+    return false
+  })
+}
+
+export function getDashboardDistribucion() {
+  return request({
+    url: '/api/dashboard/eventos/distribucion',
+    method: 'get',
+    params: getQuery()
+  }, function(err) {
+    return err
+  }, function() {
+    return false
+  })
+}
+
+export function getDashboardCostos(año) {
+  return request({
+    url: '/api/dashboard/eventos/costos',
+    method: 'get',
+    params: {
+      ...getQuery(),
+      año: año || new Date().getFullYear()
+    }
+  }, function(err) {
+    return err
+  }, function() {
+    return false
+  })
+}
+
+export function getDashboardGeneral() {
+  return request({
+    url: '/api/dashboard/eventos/general',
+    method: 'get',
+    params: getQuery()
+  }, function(err) {
+    return err
+  }, function() {
+    return false
+  })
+}

@@ -4,197 +4,208 @@ var moment = require('moment')
   , jwt    = require('jsonwebtoken')
   , config = require('../util/config')
   , async  = require('async')
-	;
+  ;
 
-// MANTENIMIENTO DE DASHBOARD
+// MANTENIMIENTO DE DASHBOARD - FUNCIONES EXISTENTES
 var dashboardListaPersonas = function(req, res) {
   var usuarioLogueado   = req.decoded ? req.decoded.usuario : 'undefined'
   var empresa           = req.query.empresa           || 'soa'
-  var idestado          = req.query.idestado          || 2
-  var idempresa         = req.query.idempresa         || 0
-  var sortByName        = req.query.sortByName        || 'idagentesede'
-  var sortByType        = req.query.sortByType        || 'ASC'
-  var ultimoRecnum      = req.query.ultimoRecnum      || 0
+  var idestado         = req.query.idestado          || 2
+  var idempresa        = req.query.idempresa         || 0
+  var sortByName       = req.query.sortByName        || 'idagentesede'
+  var sortByType       = req.query.sortByType        || 'ASC'
+  var ultimoRecnum     = req.query.ultimoRecnum      || 0
   var cantidadRegistros = req.query.limit
-  var pagination        = req.query.pagination        || 1
-  var textSearch        = req.query.textSearch
-  var isExcel           = false
+  var pagination       = req.query.pagination        || 1
+  var textSearch       = req.query.textSearch
+  var isExcel          = false
 
-  var query      = ` EXEC USP_vig_ingresosalida_lista_idempresa @idempresa `
+  var query = ` EXEC USP_vig_ingresosalida_lista_idempresa @idempresa `
 
-	var parameters = {}
-	var isWhere    = false
-	var aux        = ''
-	var where      = []
+  var parameters = {}
+  var isWhere = false
+  var aux = ''
+  var where = []
 
-	// parameters.idestado  = +idestado
-	parameters.idempresa = +idempresa
+  parameters.idempresa = +idempresa
 
   var response = {
-    status : 0
+    status: 0
   }
 
-  // console.log('empresa:>>> ', empresa)
-  // console.log('query:>>> ', query)
-  // console.log('parameters:>>> ', parameters)
-  
-	api.sql.vig_ingresosalida.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
+  api.sql.vig_ingresosalida.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
     if (err) {
       res.send({ status: 0, message: err.message})
-			return
-		}
-    // console.log('lista:>>> ', lista)
+      return
+    }
 
-    response.status   = 1
+    response.status = 1
     response.cantidad = cantidad
-    response.lista    = lista
+    response.lista = lista
     res.send(response)
-		
-	})
+  })
 }
 
 var dashboardListaActivos = function(req, res) {
   var usuarioLogueado   = req.decoded ? req.decoded.usuario : 'undefined'
   var empresa           = req.query.empresa           || 'soa'
-  var idestado          = req.query.idestado          || 2
-  var idempresa         = req.query.idempresa         || 0
-  var sortByName        = req.query.sortByName        || 'idagentesede'
-  var sortByType        = req.query.sortByType        || 'ASC'
-  var ultimoRecnum      = req.query.ultimoRecnum      || 0
+  var idestado         = req.query.idestado          || 2
+  var idempresa        = req.query.idempresa         || 0
+  var sortByName       = req.query.sortByName        || 'idagentesede'
+  var sortByType       = req.query.sortByType        || 'ASC'
+  var ultimoRecnum     = req.query.ultimoRecnum      || 0
   var cantidadRegistros = req.query.limit
-  var pagination        = req.query.pagination        || 1
-  var textSearch        = req.query.textSearch
-  var isExcel           = false
+  var pagination       = req.query.pagination        || 1
+  var textSearch       = req.query.textSearch
+  var isExcel          = false
 
-  var query      = ` EXEC USP_adm_personal_activos_lista_idempresa @idempresa `
+  var query = ` EXEC USP_adm_personal_activos_lista_idempresa @idempresa `
 
-	var parameters = {}
-	var isWhere    = false
-	var aux        = ''
-	var where      = []
+  var parameters = {}
+  var isWhere = false
+  var aux = ''
+  var where = []
 
-	// parameters.idestado = +idestado
   parameters.idempresa = +idempresa
 
   var response = {
-    status : 0
+    status: 0
   }
 
-  // console.log('empresa:>>> ', empresa)
-  // console.log('query:>>> ', query)
-  // console.log('parameters:>>> ', parameters)
+  api.sql.adm_personal_activos.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
+    if (err) {
+      res.send({ status: 0, message: err.message})
+      return
+    }
 
-	api.sql.adm_personal_activos.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
-		if (err) {
-			res.send({ status: 0, message: err.message})
-			return
-		}
-
-    // console.log('lista:>>> ', lista)
-
-    response.status   = 1
+    response.status = 1
     response.cantidad = cantidad
-    response.lista    = lista
+    response.lista = lista
     res.send(response)
-		
-	})
+  })
 }
 
-var dashboardListaCorrespondencia = function(req, res) {
-  var usuarioLogueado   = req.decoded ? req.decoded.usuario : 'undefined'
-  var empresa           = req.query.empresa           || 'soa'
-  var idestado          = req.query.idestado          || 2
-  var idempresa         = req.query.idempresa         || 0
-  var sortByName        = req.query.sortByName        || 'idagentesede'
-  var sortByType        = req.query.sortByType        || 'ASC'
-  var ultimoRecnum      = req.query.ultimoRecnum      || 0
-  var cantidadRegistros = req.query.limit
-  var pagination        = req.query.pagination        || 1
-  var textSearch        = req.query.textSearch
-  var isExcel           = false
+// DASHBOARD DE EVENTOS - NUEVAS FUNCIONES
+var dashboardEventosKpis = function(req, res) {
+  var usuarioLogueado = req.decoded ? req.decoded.usuario : 'undefined'
+  var empresa = req.query.empresa || 'soa'
+  var año = req.query.año || moment().year()
 
-  var query      = ` EXEC USP_vig_correspondencia_lista_idempresa @idempresa `
+  var query = ` EXEC USP_dashboard_kpis `
+  var parameters = {}
+  var response = { status: 0 }
 
-	var parameters = {}
-	var isWhere    = false
-	var aux        = ''
-	var where      = []
+  api.sql.adm_dashboard.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
+    if (err) {
+      res.send({ status: 0, message: err.message})
+      return
+    }
+    response.status = 1
+    response.cantidad = cantidad
+    response.lista = lista[0] // Solo necesitamos el primer resultado para los KPIs
+    res.send(response)
+  })
+}
 
-	// parameters.idestado = +idestado
-  parameters.idempresa = +idempresa
+var dashboardEventosTendencia = function(req, res) {
+  var usuarioLogueado = req.decoded ? req.decoded.usuario : 'undefined'
+  var empresa = req.query.empresa || 'soa'
+  var año = req.query.año || moment().year()
+  var mes = req.query.mes || moment().month() + 1
 
-  var response = {
-    status : 0
+  var query = ` EXEC USP_dashboard_eventos_trend `
+  var parameters = {
+    año: año,
+    mes: mes
   }
+  var response = { status: 0 }
 
-  // console.log('empresa:>>> ', empresa)
-  // console.log('query:>>> ', query)
-  // console.log('parameters:>>> ', parameters)
-
-	api.sql.vig_correspondencia.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
-		if (err) {
-			res.send({ status: 0, message: err.message})
-			return
-		}
-
-    // console.log('lista:>>> ', lista)
-
-    response.status   = 1
+  api.sql.adm_dashboard.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
+    if (err) {
+      res.send({ status: 0, message: err.message})
+      return
+    }
+    response.status = 1
     response.cantidad = cantidad
-    response.lista    = lista
+    response.lista = lista
     res.send(response)
-		
-	})
+  })
 }
 
-var dashboardListaIncidencias = function(req, res) {
-  var usuarioLogueado   = req.decoded ? req.decoded.usuario : 'undefined'
-  var empresa           = req.query.empresa           || 'soa'
-  var idestado          = req.query.idestado          || 2
-  var idempresa         = req.query.idempresa         || 0
-  var sortByName        = req.query.sortByName        || 'idagentesede'
-  var sortByType        = req.query.sortByType        || 'ASC'
-  var ultimoRecnum      = req.query.ultimoRecnum      || 0
-  var cantidadRegistros = req.query.limit
-  var pagination        = req.query.pagination        || 1
-  var textSearch        = req.query.textSearch
-  var isExcel           = false
+var dashboardEventosRadar = function(req, res) {
+  var usuarioLogueado = req.decoded ? req.decoded.usuario : 'undefined'
+  var empresa = req.query.empresa || 'soa'
 
-  var query      = ` EXEC USP_vig_incidencias_lista_idempresa @idempresa `
+  var query = ` EXEC USP_dashboard_radar_stats `
+  var parameters = {}
+  var response = { status: 0 }
 
-	var parameters = {}
-	var isWhere    = false
-	var aux        = ''
-	var where      = []
+  api.sql.adm_dashboard.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
+    if (err) {
+      res.send({ status: 0, message: err.message})
+      return
+    }
+    response.status = 1
+    response.cantidad = cantidad
+    response.lista = {
+      estados: lista[0],
+      tiempos: lista[1]
+    }
+    res.send(response)
+  })
+}
 
-	// parameters.idestado = +idestado
-  parameters.idempresa = +idempresa
+var dashboardEventosDistribucion = function(req, res) {
+  var usuarioLogueado = req.decoded ? req.decoded.usuario : 'undefined'
+  var empresa = req.query.empresa || 'soa'
 
-  var response = {
-    status : 0
+  var query = ` EXEC USP_dashboard_pie_chart `
+  var parameters = {}
+  var response = { status: 0 }
+
+  api.sql.adm_dashboard.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
+    if (err) {
+      res.send({ status: 0, message: err.message})
+      return
+    }
+    response.status = 1
+    response.cantidad = cantidad
+    response.lista = {
+      estados: lista[0],
+      costos: lista[1]
+    }
+    res.send(response)
+  })
+}
+
+var dashboardEventosCostos = function(req, res) {
+  var usuarioLogueado = req.decoded ? req.decoded.usuario : 'undefined'
+  var empresa = req.query.empresa || 'soa'
+  var año = req.query.año || moment().year()
+
+  var query = ` EXEC USP_dashboard_costos_mensuales `
+  var parameters = {
+    año: año
   }
+  var response = { status: 0 }
 
-  // console.log('empresa:>>> ', empresa)
-  // console.log('query:>>> ', query)
-  // console.log('parameters:>>> ', parameters)
-
-	api.sql.vig_incidencias.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
-		if (err) {
-			res.send({ status: 0, message: err.message})
-			return
-		}
-
-    // console.log('lista:>>> ', lista)
-
-    response.status   = 1
+  api.sql.adm_dashboard.builtGet(empresa, query, parameters, function(err, cantidad, lista) {
+    if (err) {
+      res.send({ status: 0, message: err.message})
+      return
+    }
+    response.status = 1
     response.cantidad = cantidad
-    response.lista    = lista
+    response.lista = lista
     res.send(response)
-		
-	})
+  })
 }
 
-exports.dashboardListaPersonas        = dashboardListaPersonas
-exports.dashboardListaActivos         = dashboardListaActivos
-exports.dashboardListaCorrespondencia = dashboardListaCorrespondencia
-exports.dashboardListaIncidencias     = dashboardListaIncidencias
+// Exportaciones
+exports.dashboardListaPersonas = dashboardListaPersonas
+exports.dashboardListaActivos = dashboardListaActivos
+exports.dashboardEventosKpis = dashboardEventosKpis
+exports.dashboardEventosTendencia = dashboardEventosTendencia
+exports.dashboardEventosRadar = dashboardEventosRadar
+exports.dashboardEventosDistribucion = dashboardEventosDistribucion
+exports.dashboardEventosCostos = dashboardEventosCostos

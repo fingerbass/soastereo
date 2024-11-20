@@ -11,6 +11,7 @@ var api = {
 		adm_evaluacion		 	 : require('./sql_adm_evaluacion'),
 		adm_eventos					 : require('./sql_adm_eventos'),
 		adm_proveedores			 : require('./sql_adm_proveedores'),
+		adm_dashboard			   : require('./sql_adm_dashboard'),
   },
   ws : {
   }
