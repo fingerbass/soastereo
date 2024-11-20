@@ -50,7 +50,7 @@ var config = {
 			// 	object_connection: {
 			// 		user    : 'sa',
 			// 		password: 'sql',
-			// 		server  : '192.168.1.5',
+			// 		server  : '192.168.1.43',
 			// 		database: 'soa',
 			// 		options: {
 			// 			encrypt: false,

@@ -253,7 +253,7 @@ export const asyncRoutes = [
     meta: {
       title: 'Mantenimientos',
       icon: 'el-icon-setting',
-      roles: ['ADMINISTRADOR', 'USUARIO', 'CONSULTOR', 'SUPERVISOR'] // puedes establecer roles en la navegación raíz
+      roles: ['ADMINISTRADOR', 'SUPERVISOR'] // puedes establecer roles en la navegación raíz
     },
     children: [
       {
@@ -263,7 +263,7 @@ export const asyncRoutes = [
         meta: {
           icon : 'el-icon-office-building',
           title: 'Categorias',
-          roles: ['ADMINISTRADOR', 'SUPERVISOR', 'USUARIO']  // o solo puede establecer roles en la navegación secundaria
+          roles: ['ADMINISTRADOR', 'SUPERVISOR']  // o solo puede establecer roles en la navegación secundaria
         }
       },
       {
@@ -273,7 +273,7 @@ export const asyncRoutes = [
         meta: {
           icon : 'el-icon-office-building',
           title: 'Proveedores',
-          roles: ['ADMINISTRADOR', 'SUPERVISOR', 'USUARIO']  // o solo puede establecer roles en la navegación secundaria
+          roles: ['ADMINISTRADOR', 'SUPERVISOR']  // o solo puede establecer roles en la navegación secundaria
         }
       },
       {
@@ -283,7 +283,7 @@ export const asyncRoutes = [
         meta: {
           icon : 'el-icon-office-building',
           title: 'Clientes',
-          roles: ['ADMINISTRADOR', 'SUPERVISOR', 'USUARIO']  // o solo puede establecer roles en la navegación secundaria
+          roles: ['ADMINISTRADOR', 'SUPERVISOR']  // o solo puede establecer roles en la navegación secundaria
         }
       },
       {
@@ -293,7 +293,7 @@ export const asyncRoutes = [
         meta: {
           icon : 'el-icon-office-building',
           title: 'Eventos',
-          roles: ['ADMINISTRADOR', 'SUPERVISOR', 'USUARIO']  // o solo puede establecer roles en la navegación secundaria
+          roles: ['ADMINISTRADOR', 'SUPERVISOR']  // o solo puede establecer roles en la navegación secundaria
         }
       },
       {
@@ -303,7 +303,32 @@ export const asyncRoutes = [
         meta: {
           icon: 'el-icon-office-building',
           title: 'Eval. de Proveedores',
-          roles: ['ADMINISTRADOR', 'SUPERVISOR', 'USUARIO']
+          roles: ['ADMINISTRADOR', 'SUPERVISOR']
+        }
+      }
+    ]
+  },
+  // MANTENIMIENTO
+  {
+    path: '/menu',
+    component: MasterPage,
+    redirect: '/menu/clientes',
+    alwaysShow: true, // siempre mostrará el menú raíz
+    name: 'Menus',
+    meta: {
+      title: 'Menu',
+      icon: 'el-icon-setting',
+      roles: ['USUARIO'] // puedes establecer roles en la navegación raíz
+    },
+    children: [
+      {
+        path: 'evaluacion',
+        component: () => import('@/views/mantenimientos/mantenimiento_evaluacion'),
+        name: 'MantenimientoEvaluacion',
+        meta: {
+          icon: 'el-icon-office-building',
+          title: 'Eval. de Proveedores',
+          roles: ['USUARIO']
         }
       }
     ]
