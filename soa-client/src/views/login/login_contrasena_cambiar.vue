@@ -72,9 +72,9 @@ export default {
       },
       passwordTemporal   : localStorage.getItem('passwordTemporal'),
       nombre             : localStorage.getItem('nombre'),
-      login            : localStorage.getItem('login'),
+      login              : localStorage.getItem('login'),
       passwordType       : 'password',
-      modalAux         : this.modal,
+      modalAux           : this.modal,
       cargandoInformacion: false,
       rules              : {
         passwordActual: [
@@ -137,6 +137,7 @@ export default {
       var obj                 = {
         tipoaccion       : tipoaccion,
         idusuario        : localStorage.getItem('idusuario'),
+        idusuario2       : localStorage.getItem('idusuario'),
         idusuariopassword: localStorage.getItem('idusuario'),
         password         : vm.form.password ? vm.form.password.trim() : '',
         restablece       : 0

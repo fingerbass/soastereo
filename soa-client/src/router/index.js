@@ -208,7 +208,7 @@ export const asyncRoutes = [
         meta: {
           title: 'Roles',
           icon : 'el-icon-user-solid',
-          roles: ['ADMINISTRADOR', 'USUARIO', 'CONSULTOR'] // o solo puede establecer roles en la navegación secundaria
+          roles: ['ADMINISTRADOR'] // o solo puede establecer roles en la navegación secundaria
         }
       },
       {
@@ -218,17 +218,7 @@ export const asyncRoutes = [
         meta: {
           title: 'Usuarios',
           icon : 'el-icon-user-solid',
-          roles: ['ADMINISTRADOR', 'USUARIO', 'CONSULTOR'] // o solo puede establecer roles en la navegación secundaria
-        }
-      },
-      {
-        path: 'matenimiento-usuarios-empresa',
-        component: () => import('@/views/login/mantenimiento_usuarios_empresa'),
-        name: 'MantenimientoUsuariosEmpresa',
-        meta: {
-          title: 'Usuarios Por Empresas',
-          icon : 'el-icon-user-solid',
-          roles: ['ADMINISTRADOR', 'USUARIO', 'CONSULTOR'] // o solo puede establecer roles en la navegación secundaria
+          roles: ['ADMINISTRADOR'] // o solo puede establecer roles en la navegación secundaria
         }
       },
       {
@@ -238,7 +228,17 @@ export const asyncRoutes = [
         meta: {
           title: 'Empresas',
           icon : 'el-icon-user-solid',
-          roles: ['ADMINISTRADOR', 'USUARIO', 'CONSULTOR'] // o solo puede establecer roles en la navegación secundaria
+          roles: ['ADMINISTRADOR'] // o solo puede establecer roles en la navegación secundaria
+        }
+      },
+      {
+        path: 'matenimiento-usuarios-empresa',
+        component: () => import('@/views/login/mantenimiento_usuarios_empresa'),
+        name: 'MantenimientoUsuariosEmpresa',
+        meta: {
+          title: 'Usuarios Por Empresas',
+          icon : 'el-icon-user-solid',
+          roles: ['ADMINISTRADOR'] // o solo puede establecer roles en la navegación secundaria
         }
       }
     ]

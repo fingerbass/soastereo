@@ -233,7 +233,7 @@ var handlerusuariospasswordRestablecer = function(empresa, usuario, restablece, 
 }
 
 var sendEmailNotificacionUsuarioRestablecer = function(empresa, obj, passwordTemporal, callback) {
-  var plataforma_link_aqui = '<bold><a href="https://localhost:8062/#/login">Aqui</a></bold>'
+  var plataforma_link_aqui = '<bold><a href="http://localhost:8065/#/login">Aqui</a></bold>'
   var logoAux              = 'logo_soa.png'
   var logotipo             = ''
   if  (empresa) logotipo   = path.join(process.cwd(),'logo', logoAux)
@@ -257,7 +257,7 @@ var sendEmailNotificacionUsuarioRestablecer = function(empresa, obj, passwordTem
                   <tbody>
                     <tr>
                       <td style="background: #000e36; padding: 0cm; height: 45pt; text-align: center;">
-                        <img src="cid:unique@openjavascript.info" width="200" alt="soa" />
+                        <h1 style="color: #FFFFFF">SOASTEREO<h1>
                       </td>
                     </tr>
                     <tr>
@@ -305,7 +305,7 @@ var sendEmailNotificacionUsuarioRestablecer = function(empresa, obj, passwordTem
                  <td>
                     <p align="center" style="text-align:center">
                       <span style="font-size:9.0pt">
-                        © PATROL INNOVATIONS S.A.C. 2023. Todos los derechos reservados.
+                        © SOASTEREO S.A.C. 2024. Todos los derechos reservados.
                       </span>
                     </p>
                   </td>
@@ -323,14 +323,26 @@ var sendEmailNotificacionUsuarioRestablecer = function(empresa, obj, passwordTem
   const transporter = nodemailer.createTransport({
     // usuario: soastereo@outlook.com
     // pwd: Insanos*2024
+    // usuario: soastereoutp@gmail.com
+    // pwd: Insanos*2024
     // service: 'hotmail',
     // host: 'smtp.gmail.com',
-    host  : 'smtp-mail.outlook.com',
-    port  : 587,                  // 143, 110
+    // host  : 'smtp-mail.outlook.com',
+    // port  : 587,                  // 143, 110
+    // secure: false,
+    // auth  : {
+    //   user: 'soastereo@outlook.com',
+    //   pass: 'hmeulfwyozjwrtmk'
+    // },
+    // tls: {
+    //   rejectUnauthorized: false, // Acepta certificados auto-firmados o no verificados
+    // },
+    host: 'smtp.gmail.com',
+    port  : 587,
     secure: false,
     auth  : {
-      user: 'soastereo@outlook.com',
-      pass: 'epqsrgibugqntuhx'
+      user: 'soastereoutp@gmail.com',
+      pass: 'kvix ucuw wrru npld'
     },
     // tls: {
     //   rejectUnauthorized: false, // Acepta certificados auto-firmados o no verificados
@@ -338,17 +350,17 @@ var sendEmailNotificacionUsuarioRestablecer = function(empresa, obj, passwordTem
   })
 
   let mailOptions = {
-    from       : 'Soporte SOA <soastereo@outlook.com>',
+    from       : 'Soporte SOA <soastereoutp@gmail.com>',
     to         : obj.email,
     subject    : 'Se restablecio su contraseña',
     html       : html,
-    attachments: [
-      {
-        filename: logoAux,
-        path    : `./logo/${logoAux}`,
-        cid     : 'unique@openjavascript.info'
-      }
-    ]
+    // attachments: [
+    //   {
+    //     filename: logoAux,
+    //     path    : `./logo/${logoAux}`,
+    //     cid     : 'unique@openjavascript.info'
+    //   }
+    // ]
   };
 
    // Enviar el correo
