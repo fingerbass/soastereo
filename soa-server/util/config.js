@@ -61,8 +61,8 @@ var config = {
 			db     : {
 				object_connection: {
 					user    : 'sa',
-					password: 'RivieraInsana++',
-					server  : '135.148.78.170',
+					password: 'password',
+					server  : 'servidor',
 					database: 'soa',
 					options: {
 						encrypt: false,
